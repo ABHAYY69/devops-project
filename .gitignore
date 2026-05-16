@@ -1,0 +1,10 @@
+.terraform/
+*.tfstate
+*.tfstate.backup
+terraform/.terraform/
+devops-key.pem
+key.pem
+awscliv2.zip
+terraform_1.7.0_linux_amd64.zip
+__pycache__
+*.pyc
