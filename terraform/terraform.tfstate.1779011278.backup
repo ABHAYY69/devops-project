@@ -1,11 +1,11 @@
 {
   "version": 4,
   "terraform_version": "1.7.0",
-  "serial": 25,
+  "serial": 43,
   "lineage": "eddae8ed-fb9b-18ab-c7ca-c1ca5a41c743",
   "outputs": {
     "ec2_public_ip": {
-      "value": "15.206.66.88",
+      "value": "52.66.196.7",
       "type": "string"
     },
     "ecr_url": {
@@ -59,8 +59,8 @@
         {
           "schema_version": 1,
           "attributes": {
-            "ami": "ami-0f58b397bc5c1f2e8",
-            "arn": "arn:aws:ec2:ap-south-1:756269935915:instance/i-08717340a9c04c738",
+            "ami": "ami-07711b2f361d92b11",
+            "arn": "arn:aws:ec2:ap-south-1:756269935915:instance/i-07b1431ad6310a0be",
             "associate_public_ip_address": true,
             "availability_zone": "ap-south-1a",
             "capacity_reservation_specification": [
@@ -99,7 +99,7 @@
             "host_id": "",
             "host_resource_group_arn": null,
             "iam_instance_profile": "",
-            "id": "i-08717340a9c04c738",
+            "id": "i-07b1431ad6310a0be",
             "instance_initiated_shutdown_behavior": "stop",
             "instance_lifecycle": "",
             "instance_market_options": [],
@@ -118,8 +118,8 @@
               {
                 "http_endpoint": "enabled",
                 "http_protocol_ipv6": "disabled",
-                "http_put_response_hop_limit": 2,
-                "http_tokens": "required",
+                "http_put_response_hop_limit": 1,
+                "http_tokens": "optional",
                 "instance_metadata_tags": "disabled"
               }
             ],
@@ -129,8 +129,8 @@
             "password_data": "",
             "placement_group": "",
             "placement_partition_number": 0,
-            "primary_network_interface_id": "eni-09536e5152d9523e4",
-            "private_dns": "ip-172-31-39-44.ap-south-1.compute.internal",
+            "primary_network_interface_id": "eni-067fb3c14bc5e07e2",
+            "private_dns": "ip-172-31-33-174.ap-south-1.compute.internal",
             "private_dns_name_options": [
               {
                 "enable_resource_name_dns_a_record": false,
@@ -138,22 +138,22 @@
                 "hostname_type": "ip-name"
               }
             ],
-            "private_ip": "172.31.39.44",
-            "public_dns": "ec2-15-206-66-88.ap-south-1.compute.amazonaws.com",
-            "public_ip": "15.206.66.88",
+            "private_ip": "172.31.33.174",
+            "public_dns": "ec2-52-66-196-7.ap-south-1.compute.amazonaws.com",
+            "public_ip": "52.66.196.7",
             "root_block_device": [
               {
                 "delete_on_termination": true,
-                "device_name": "/dev/sda1",
+                "device_name": "/dev/xvda",
                 "encrypted": false,
-                "iops": 3000,
+                "iops": 100,
                 "kms_key_id": "",
                 "tags": {},
                 "tags_all": {},
-                "throughput": 125,
-                "volume_id": "vol-00426c8d54ef59920",
+                "throughput": 0,
+                "volume_id": "vol-0904501a00c945e03",
                 "volume_size": 8,
-                "volume_type": "gp3"
+                "volume_type": "gp2"
               }
             ],
             "secondary_private_ips": [],
