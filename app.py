@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'campusbazaar-secret-key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///campusbazaar.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dbadmin:CampusBazaar123!@campusbazaar-db.c7a4u6ccqv2r.ap-south-1.rds.amazonaws.com:5432/campusbazaar'
 app.config['UPLOAD_FOLDER'] = 'static/images'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 

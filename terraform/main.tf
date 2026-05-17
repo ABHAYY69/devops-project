@@ -33,7 +33,12 @@ resource "aws_security_group" "devops_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -64,7 +69,27 @@ resource "aws_eip" "devops_eip" {
   instance = aws_instance.devops_server.id
   domain   = "vpc"
 }
+resource "aws_db_instance" "campusbazaar_db" {
+  identifier           = "campusbazaar-db"
+  engine               = "postgres"
+  engine_version       = "18.2"
+  instance_class       = "db.t3.micro"
+  allocated_storage    = 20
+  db_name              = "campusbazaar"
+  username             = "dbadmin"
+  password             = "CampusBazaar123!"
+  publicly_accessible  = true
+  skip_final_snapshot  = true
+  vpc_security_group_ids = [aws_security_group.devops_sg.id]
 
+  tags = {
+    Name = "campusbazaar-db"
+  }
+}
+
+output "db_endpoint" {
+  value = aws_db_instance.campusbazaar_db.endpoint
+}
 output "elastic_ip" {
   value = aws_eip.devops_eip.public_ip
 }
