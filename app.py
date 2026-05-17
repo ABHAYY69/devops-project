@@ -131,7 +131,53 @@ def mark_sold(item_id):
 @app.route('/health')
 def health():
     return {"status": "healthy"}, 200
+# Admin credentials (only you!)
+ADMIN_EMAIL = "admin@campusbazaar.com"
+ADMIN_PASSWORD = "admin123"
 
+@app.route('/admin')
+def admin():
+    if session.get('is_admin') != True:
+        return redirect(url_for('admin_login'))
+    users = User.query.all()
+    items = Item.query.all()
+    sold_items = Item.query.filter_by(sold=True).all()
+    return render_template('admin.html', users=users, items=items, sold_items=sold_items)
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        if request.form['email'] == ADMIN_EMAIL and request.form['password'] == ADMIN_PASSWORD:
+            session['is_admin'] = True
+            return redirect(url_for('admin'))
+        flash('Invalid admin credentials!', 'danger')
+    return render_template('admin_login.html')
+
+@app.route('/admin/delete_item/<int:item_id>')
+def admin_delete_item(item_id):
+    if session.get('is_admin') != True:
+        return redirect(url_for('admin_login'))
+    item = Item.query.get_or_404(item_id)
+    db.session.delete(item)
+    db.session.commit()
+    flash('Item deleted!', 'success')
+    return redirect(url_for('admin'))
+
+@app.route('/admin/delete_user/<int:user_id>')
+def admin_delete_user(user_id):
+    if session.get('is_admin') != True:
+        return redirect(url_for('admin_login'))
+    user = User.query.get_or_404(user_id)
+    Item.query.filter_by(user_id=user_id).delete()
+    db.session.delete(user)
+    db.session.commit()
+    flash('User deleted!', 'success')
+    return redirect(url_for('admin'))
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('is_admin', None)
+    return redirect(url_for('home'))
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

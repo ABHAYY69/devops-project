@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">👑 Admin Dashboard</h2>
+        <a href="/admin/logout" class="btn btn-outline-danger">Logout</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card p-4 text-center">
+                <h1 class="fw-bold text-primary">{{ users|length }}</h1>
+                <p class="text-muted mb-0">Total Users</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4 text-center">
+                <h1 class="fw-bold text-success">{{ items|length }}</h1>
+                <p class="text-muted mb-0">Total Items</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4 text-center">
+                <h1 class="fw-bold text-danger">{{ sold_items|length }}</h1>
+                <p class="text-muted mb-0">Items Sold</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="card mb-5">
+        <div class="card-body">
+            <h4 class="fw-bold mb-4">👥 All Users</h4>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>College</th>
+                        <th>Items</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.college }}</td>
+                        <td>{{ user.items|length }}</td>
+                        <td>
+                            <a href="/admin/delete_user/{{ user.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this user?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Items Table -->
+    <div class="card">
+        <div class="card-body">
+            <h4 class="fw-bold mb-4">📦 All Items</h4>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Seller</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>₹{{ item.price }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.seller.name }}</td>
+                        <td>
+                            <span class="badge {% if item.sold %}bg-danger{% else %}bg-success{% endif %}">
+                                {% if item.sold %}Sold{% else %}Active{% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="/admin/delete_item/{{ item.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this item?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
