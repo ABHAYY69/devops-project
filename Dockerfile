@@ -7,6 +7,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
+RUN mkdir -p static/images
 
 EXPOSE 5000
 
