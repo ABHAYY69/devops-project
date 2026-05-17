@@ -6,7 +6,7 @@ A production-grade DevOps project built by a 3rd year CS student demonstrating
 real-world cloud infrastructure and automation.
 
 ## 🌍 Live Demo
-http://13.206.172.39:5000
+[Click Here to View Live App](http://13.206.172.39:5000)
 
 ## 🛠️ Tech Stack
 | Tool | Purpose |
