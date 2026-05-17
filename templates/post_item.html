@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card p-4">
+                <h2 class="text-center fw-bold mb-4">Post an Item 📦</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Item Title</label>
+                        <input type="text" name="title" class="form-control" placeholder="e.g. Physics Textbook" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="3" placeholder="Describe your item..." required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price (₹)</label>
+                        <input type="number" name="price" class="form-control" placeholder="Enter price" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select name="category" class="form-select" required>
+                            <option value="">Select category</option>
+                            <option value="Books">📚 Books</option>
+                            <option value="Electronics">💻 Electronics</option>
+                            <option value="Clothes">👕 Clothes</option>
+                            <option value="Sports">⚽ Sports</option>
+                            <option value="Other">📦 Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Image (optional)</label>
+                        <input type="file" name="image" class="form-control" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2">Post Item 🚀</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

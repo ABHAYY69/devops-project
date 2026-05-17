@@ -1,18 +1,55 @@
-cat > templates/index.html << 'EOF'
-<!DOCTYPE html>
-<html>
-<head>
-    <title>DevOps Project</title>
-    <style>
-        body { font-family: Arial; text-align: center; margin-top: 100px; background: #1a1a2e; color: white; }
-        h1 { font-size: 3em; }
-        p { color: #00d4ff; }
-    </style>
-</head>
-<body>
-    <h1>🚀 My DevOps App</h1>
-    <p>Deployed with Docker + Terraform + AWS + GitHub Actions</p>
-    <p>Status: Live on AWS</p>
-</body>
-</html>
-EOF
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero text-center">
+    <h1 class="display-4 fw-bold">🛍️ CampusBazaar</h1>
+    <p class="lead">Buy & Sell anything within your campus!</p>
+    <form class="d-flex justify-content-center mt-3" method="GET" action="/">
+        <input type="text" name="search" class="form-control w-50 me-2" placeholder="Search items..." value="{{ search }}">
+        <button type="submit" class="btn btn-light fw-bold">🔍 Search</button>
+    </form>
+</div>
+
+<div class="container mt-4">
+    <!-- Categories -->
+    <div class="d-flex gap-2 flex-wrap mb-4">
+        <a href="/" class="btn btn-sm {% if not category %}btn-primary{% else %}btn-outline-primary{% endif %}">All</a>
+        <a href="/?category=Books" class="btn btn-sm {% if category=='Books' %}btn-primary{% else %}btn-outline-primary{% endif %}">📚 Books</a>
+        <a href="/?category=Electronics" class="btn btn-sm {% if category=='Electronics' %}btn-primary{% else %}btn-outline-primary{% endif %}">💻 Electronics</a>
+        <a href="/?category=Clothes" class="btn btn-sm {% if category=='Clothes' %}btn-primary{% else %}btn-outline-primary{% endif %}">👕 Clothes</a>
+        <a href="/?category=Sports" class="btn btn-sm {% if category=='Sports' %}btn-primary{% else %}btn-outline-primary{% endif %}">⚽ Sports</a>
+        <a href="/?category=Other" class="btn btn-sm {% if category=='Other' %}btn-primary{% else %}btn-outline-primary{% endif %}">📦 Other</a>
+    </div>
+
+    <!-- Items Grid -->
+    {% if items %}
+    <div class="row g-4">
+        {% for item in items %}
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100">
+                <img src="/static/images/{{ item.image }}" class="card-img-top" style="height:200px; object-fit:cover;" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                <div class="card-body">
+                    <span class="badge badge-category text-white mb-2">{{ item.category }}</span>
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text text-muted small">{{ item.description[:80] }}...</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="price-tag">₹{{ item.price }}</span>
+                        <a href="/item/{{ item.id }}" class="btn btn-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted small">
+                    🎓 {{ item.seller.college }} • {{ item.date_posted.strftime('%d %b') }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <h3>😕 No items found!</h3>
+        <p class="text-muted">Be the first to post something!</p>
+        <a href="/post" class="btn btn-primary">Post an Item</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

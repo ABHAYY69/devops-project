@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card p-4 text-center">
+                <div style="width:80px; height:80px; background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px;">
+                    <i class="fas fa-user fa-2x text-white"></i>
+                </div>
+                <h4 class="fw-bold">{{ user.name }}</h4>
+                <p class="text-muted">{{ user.email }}</p>
+                <p><i class="fas fa-graduation-cap"></i> {{ user.college }}</p>
+                <hr>
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h4 class="fw-bold text-primary">{{ items|length }}</h4>
+                        <small class="text-muted">Total Items</small>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="fw-bold text-success">{{ items|selectattr('sold')|list|length }}</h4>
+                        <small class="text-muted">Sold</small>
+                    </div>
+                </div>
+                <a href="/post" class="btn btn-primary w-100 mt-3">+ Post New Item</a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h4 class="fw-bold mb-4">My Listings</h4>
+            {% if items %}
+                {% for item in items %}
+                <div class="card mb-3 p-3">
+                    <div class="d-flex align-items-center">
+                        <img src="/static/images/{{ item.image }}" style="width:80px; height:80px; object-fit:cover; border-radius:10px;" onerror="this.src='https://via.placeholder.com/80?text=No+Image'">
+                        <div class="ms-3 flex-grow-1">
+                            <h6 class="fw-bold mb-1">{{ item.title }}</h6>
+                            <span class="price-tag">₹{{ item.price }}</span>
+                            <span class="badge {% if item.sold %}bg-danger{% else %}bg-success{% endif %} ms-2">
+                                {% if item.sold %}Sold{% else %}Active{% endif %}
+                            </span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="/item/{{ item.id }}" class="btn btn-sm btn-outline-primary">View</a>
+                            {% if not item.sold %}
+                            <a href="/mark_sold/{{ item.id }}" class="btn btn-sm btn-outline-danger">Mark Sold</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center py-5">
+                    <h5 class="text-muted">No items posted yet!</h5>
+                    <a href="/post" class="btn btn-primary mt-3">Post Your First Item</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
