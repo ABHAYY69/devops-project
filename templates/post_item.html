@@ -1,40 +1,43 @@
 {% extends "base.html" %}
-
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-7">
-            <div class="card p-4">
-                <h2 class="text-center fw-bold mb-4">Post an Item 📦</h2>
+            <div class="form-card">
+                <h3 class="fw-bold mb-1">Sell an Item</h3>
+                <p class="text-muted mb-4">List your item and reach thousands of students!</p>
                 <form method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label class="form-label">Item Title</label>
-                        <input type="text" name="title" class="form-control" placeholder="e.g. Physics Textbook" required>
+                        <label class="form-label fw-bold">Item Title</label>
+                        <input type="text" name="title" class="form-control" placeholder="e.g. Physics Textbook 2nd Year" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        <textarea name="description" class="form-control" rows="3" placeholder="Describe your item..." required></textarea>
+                        <label class="form-label fw-bold">Description</label>
+                        <textarea name="description" class="form-control" rows="3" placeholder="Describe condition, age, reason for selling..." required></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Price (₹)</label>
-                        <input type="number" name="price" class="form-control" placeholder="Enter price" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Price (₹)</label>
+                            <input type="number" name="price" class="form-control" placeholder="0" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Category</label>
+                            <select name="category" class="form-select" required>
+                                <option value="">Select category</option>
+                                <option value="Books">📚 Books</option>
+                                <option value="Electronics">💻 Electronics</option>
+                                <option value="Clothes">👕 Clothes</option>
+                                <option value="Sports">⚽ Sports</option>
+                                <option value="Other">📦 Other</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Category</label>
-                        <select name="category" class="form-select" required>
-                            <option value="">Select category</option>
-                            <option value="Books">📚 Books</option>
-                            <option value="Electronics">💻 Electronics</option>
-                            <option value="Clothes">👕 Clothes</option>
-                            <option value="Sports">⚽ Sports</option>
-                            <option value="Other">📦 Other</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Image (optional)</label>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Item Image</label>
                         <input type="file" name="image" class="form-control" accept="image/*">
+                        <small class="text-muted">Upload a clear photo for better visibility</small>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 py-2">Post Item 🚀</button>
+                    <button type="submit" class="btn btn-primary w-100 py-2">🚀 Post Item</button>
                 </form>
             </div>
         </div>

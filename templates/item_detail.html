@@ -1,30 +1,61 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6">
-            <img src="/static/images/{{ item.image }}" class="img-fluid rounded-3 w-100" style="max-height:400px; object-fit:cover;" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+<div class="container mt-4">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/?category={{ item.category }}">{{ item.category }}</a></li>
+            <li class="breadcrumb-item active">{{ item.title }}</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <!-- Image -->
+        <div class="col-md-5">
+            <div class="bg-white rounded-3 p-3 shadow-sm text-center">
+                <img src="/static/images/{{ item.image }}" class="img-fluid rounded-3" style="max-height:400px; object-fit:contain;" onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+            </div>
         </div>
-        <div class="col-md-6">
-            <span class="badge badge-category text-white mb-2">{{ item.category }}</span>
-            <h2 class="fw-bold">{{ item.title }}</h2>
-            <h3 class="price-tag">₹{{ item.price }}</h3>
-            <p class="text-muted">{{ item.description }}</p>
-            <hr>
-            <h5>Seller Info</h5>
-            <p><i class="fas fa-user"></i> {{ item.seller.name }}</p>
-            <p><i class="fas fa-graduation-cap"></i> {{ item.seller.college }}</p>
-            <p><i class="fas fa-envelope"></i> {{ item.seller.email }}</p>
-            <p class="text-muted small">Posted on {{ item.date_posted.strftime('%d %B %Y') }}</p>
-            {% if item.sold %}
-                <span class="badge bg-danger fs-6">SOLD</span>
-            {% else %}
-                <a href="mailto:{{ item.seller.email }}?subject=Interested in {{ item.title }}" class="btn btn-primary w-100 py-2">
+
+        <!-- Details -->
+        <div class="col-md-7">
+            <div class="bg-white rounded-3 p-4 shadow-sm">
+                <span class="badge-cat mb-2 d-inline-block">{{ item.category }}</span>
+                <h2 class="fw-bold mt-2">{{ item.title }}</h2>
+                <h2 class="fw-bold text-primary mt-2">₹{{ "{:,.0f}".format(item.price) }}</h2>
+
+                {% if item.sold %}
+                <span class="badge bg-danger fs-6 mb-3">SOLD OUT</span>
+                {% else %}
+                <span class="badge bg-success fs-6 mb-3">Available</span>
+                {% endif %}
+
+                <hr>
+                <h6 class="fw-bold">Description</h6>
+                <p class="text-muted">{{ item.description }}</p>
+
+                <hr>
+                <h6 class="fw-bold mb-3">Seller Information</h6>
+                <div class="d-flex align-items-center mb-3">
+                    <div style="width:50px; height:50px; background:#2874f0; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                    <div class="ms-3">
+                        <p class="fw-bold mb-0">{{ item.seller.name }}</p>
+                        <p class="text-muted small mb-0"><i class="fas fa-graduation-cap"></i> {{ item.seller.college }}</p>
+                    </div>
+                </div>
+
+                <p class="text-muted small">Posted on {{ item.date_posted.strftime('%d %B %Y') }}</p>
+
+                {% if not item.sold %}
+                <a href="mailto:{{ item.seller.email }}?subject=Interested in {{ item.title }}&body=Hi {{ item.seller.name }}, I am interested in buying your {{ item.title }} listed on CampusBazaar for ₹{{ item.price }}." class="btn btn-buy w-100 py-3 mb-2">
                     <i class="fas fa-envelope"></i> Contact Seller
                 </a>
-            {% endif %}
-            <a href="/" class="btn btn-outline-secondary w-100 mt-2">← Back to Listings</a>
+                {% endif %}
+                <a href="/" class="btn btn-outline-secondary w-100">← Back to Listings</a>
+            </div>
         </div>
     </div>
 </div>
