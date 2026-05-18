@@ -50,7 +50,7 @@ resource "aws_security_group" "devops_sg" {
 resource "aws_instance" "devops_server" {
   ami                    = "ami-07711b2f361d92b11"
   instance_type          = "t3.micro"
-  key_name               = "devops-key"
+  key_name               = "devops-key2"
   vpc_security_group_ids = [aws_security_group.devops_sg.id]
    user_data = <<-EOF
     #!/bin/bash
