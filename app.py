@@ -117,7 +117,18 @@ def mark_sold(item_id):
     db.session.commit()
     flash('Item marked as sold!', 'success')
     return redirect(url_for('dashboard'))
+@app.route('/item/<int:item_id>')
+def item_detail(item_id):
+    item = Item.query.get_or_404(item_id)
+    return render_template('item_detail.html', item=item)
 
+@app.route('/dashboard')
+def dashboard():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    user = User.query.get(session['user_id'])
+    items = Item.query.filter_by(user_id=session['user_id']).all()
+    return render_template('dashboard.html', user=user, items=items)
 @app.route('/health')
 def health():
     return {"status": "healthy"}, 200
