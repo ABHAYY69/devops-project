@@ -33,7 +33,7 @@
                 {% for item in items %}
                 <div class="bg-white rounded-3 p-3 shadow-sm mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="/static/images/{{ item.image }}" style="width:80px; height:80px; object-fit:cover; border-radius:8px;" onerror="this.src='https://via.placeholder.com/80?text=No+Image'">
+                        <img src="/static/images/{{ item.image }}" style="width:80px; height:80px; object-fit:cover; border-radius:8px;" onerror="this.style.display='none'">
                         <div class="ms-3 flex-grow-1">
                             <h6 class="fw-bold mb-1">{{ item.title }}</h6>
                             <p class="text-primary fw-bold mb-1">₹{{ "{:,.0f}".format(item.price) }}</p>
