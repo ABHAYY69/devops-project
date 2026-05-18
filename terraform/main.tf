@@ -86,7 +86,45 @@ resource "aws_db_instance" "campusbazaar_db" {
     Name = "campusbazaar-db"
   }
 }
+resource "aws_s3_bucket" "campusbazaar_images" {
+  bucket        = "campusbazaar-images-756269935915"
+  force_destroy = true
 
+  tags = {
+    Name = "campusbazaar-images"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "campusbazaar_images" {
+  bucket = aws_s3_bucket.campusbazaar_images.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_policy" "campusbazaar_images" {
+  bucket = aws_s3_bucket.campusbazaar_images.id
+  depends_on = [aws_s3_bucket_public_access_block.campusbazaar_images]
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadGetObject"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "${aws_s3_bucket.campusbazaar_images.arn}/*"
+      }
+    ]
+  })
+}
+
+output "s3_bucket_name" {
+  value = aws_s3_bucket.campusbazaar_images.bucket
+}
 output "db_endpoint" {
   value = aws_db_instance.campusbazaar_db.endpoint
 }

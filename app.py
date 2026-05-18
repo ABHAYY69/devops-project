@@ -3,12 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 import os
+import boto3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'campusbazaar-secret-key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dbadmin:CampusBazaar123!@campusbazaar-db.c7a4u6ccqv2r.ap-south-1.rds.amazonaws.com:5432/campusbazaar'
-app.config['UPLOAD_FOLDER'] = 'static/images'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+AWS_BUCKET = 'campusbazaar-images-756269935915'
+AWS_REGION = 'ap-south-1'
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -96,7 +98,8 @@ def post_item():
             file = request.files['image']
             if file.filename != '':
                 image_file = f"{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{file.filename}"
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_file))
+                s3 = boto3.client('s3', region_name=AWS_REGION)
+                s3.upload_fileobj(file, AWS_BUCKET, image_file, ExtraArgs={'ContentType': file.content_type})
         item = Item(title=title, description=description, price=price,
                    category=category, image=image_file, user_id=session['user_id'])
         db.session.add(item)
@@ -104,19 +107,6 @@ def post_item():
         flash('Item posted successfully!', 'success')
         return redirect(url_for('home'))
     return render_template('post_item.html')
-
-@app.route('/item/<int:item_id>')
-def item_detail(item_id):
-    item = Item.query.get_or_404(item_id)
-    return render_template('item_detail.html', item=item)
-
-@app.route('/dashboard')
-def dashboard():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-    user = User.query.get(session['user_id'])
-    items = Item.query.filter_by(user_id=session['user_id']).all()
-    return render_template('dashboard.html', user=user, items=items)
 
 @app.route('/mark_sold/<int:item_id>')
 def mark_sold(item_id):
