@@ -1,6 +1,7 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_socketio import SocketIO, emit, join_room
 from datetime import datetime
 import os
 import boto3
@@ -14,6 +15,7 @@ AWS_REGION = 'ap-south-1'
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 # Models
 class User(db.Model):
@@ -35,6 +37,15 @@ class Item(db.Model):
     sold = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    read = db.Column(db.Boolean, default=False)
+    sender = db.relationship('User', foreign_keys=[sender_id])
+    receiver = db.relationship('User', foreign_keys=[receiver_id])
 # Routes
 @app.route('/')
 def home():
@@ -129,6 +140,65 @@ def dashboard():
     user = User.query.get(session['user_id'])
     items = Item.query.filter_by(user_id=session['user_id']).all()
     return render_template('dashboard.html', user=user, items=items)
+
+@app.route('/inbox')
+def inbox():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    user_id = session['user_id']
+    # Get all unique conversations
+    sent = db.session.query(Message.receiver_id).filter_by(sender_id=user_id).distinct()
+    received = db.session.query(Message.sender_id).filter_by(receiver_id=user_id).distinct()
+    contact_ids = set([r[0] for r in sent] + [r[0] for r in received])
+    contacts = User.query.filter(User.id.in_(contact_ids)).all()
+    # Count unread
+    unread_count = Message.query.filter_by(receiver_id=user_id, read=False).count()
+    return render_template('inbox.html', contacts=contacts, unread_count=unread_count)
+
+@app.route('/chat/<int:user_id>')
+def chat(user_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    other_user = User.query.get_or_404(user_id)
+    my_id = session['user_id']
+    messages = Message.query.filter(
+        ((Message.sender_id == my_id) & (Message.receiver_id == user_id)) |
+        ((Message.sender_id == user_id) & (Message.receiver_id == my_id))
+    ).order_by(Message.timestamp.asc()).all()
+    # Mark as read
+    Message.query.filter_by(sender_id=user_id, receiver_id=my_id, read=False).update({'read': True})
+    db.session.commit()
+    return render_template('chat.html', other_user=other_user, messages=messages, my_id=my_id)
+
+@app.route('/chat/start/<int:item_id>')
+def start_chat(item_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    item = Item.query.get_or_404(item_id)
+    return redirect(url_for('chat', user_id=item.user_id))
+
+@socketio.on('send_message')
+def handle_message(data):
+    sender_id = session.get('user_id')
+    receiver_id = data['receiver_id']
+    content = data['content']
+    msg = Message(sender_id=sender_id, receiver_id=receiver_id, content=content)
+    db.session.add(msg)
+    db.session.commit()
+    room = f"chat_{min(sender_id, receiver_id)}_{max(sender_id, receiver_id)}"
+    emit('receive_message', {
+        'sender_id': sender_id,
+        'content': content,
+        'timestamp': msg.timestamp.strftime('%H:%M')
+    }, room=room)
+
+@socketio.on('join')
+def on_join(data):
+    sender_id = session.get('user_id')
+    receiver_id = data['receiver_id']
+    room = f"chat_{min(sender_id, receiver_id)}_{max(sender_id, receiver_id)}"
+    join_room(room)
+
 @app.route('/health')
 def health():
     return {"status": "healthy"}, 200
@@ -182,4 +252,4 @@ def admin_logout():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)

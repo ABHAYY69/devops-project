@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="bg-white rounded-3 shadow-sm">
+                <div class="p-4 border-bottom">
+                    <h4 class="fw-bold mb-0">💬 Inbox</h4>
+                </div>
+
+                {% if contacts %}
+                    {% for contact in contacts %}
+                    <a href="/chat/{{ contact.id }}" class="text-decoration-none">
+                        <div class="d-flex align-items-center p-3 border-bottom hover-bg">
+                            <div style="width:50px; height:50px; background:#2874f0; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div class="ms-3">
+                                <p class="fw-bold mb-0 text-dark">{{ contact.name }}</p>
+                                <p class="text-muted small mb-0">{{ contact.college }}</p>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No conversations yet!</h5>
+                        <p class="text-muted">Start chatting with sellers from item pages</p>
+                        <a href="/" class="btn btn-primary">Browse Items</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.hover-bg:hover { background: #f5f5f5; }
+</style>
+{% endblock %}
+

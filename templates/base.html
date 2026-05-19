@@ -78,6 +78,13 @@
         <div class="d-flex align-items-center gap-3">
             {% if session.user_id %}
                 <a href="/post" class="btn btn-nav"><i class="fas fa-plus"></i> Sell</a>
+                <a href="/inbox" class="nav-link position-relative">
+    <i class="fas fa-comment"></i>
+    {% if session.user_id %}
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.6rem;">
+    </span>
+    {% endif %}
+</a>
                 <a href="/dashboard" class="nav-link"><i class="fas fa-user"></i> {{ session.user_name.split()[0] }}</a>
                 <a href="/logout" class="nav-link"><i class="fas fa-sign-out-alt"></i></a>
             {% else %}
