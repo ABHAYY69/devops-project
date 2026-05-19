@@ -12,6 +12,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dbadmin:CampusBazaar123!@c
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 AWS_BUCKET = 'campusbazaar-images-756269935915'
 AWS_REGION = 'ap-south-1'
+AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY_ID', '')
+AWS_SECRET_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -109,7 +111,7 @@ def post_item():
             file = request.files['image']
             if file.filename != '':
                 image_file = f"{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{file.filename}"
-                s3 = boto3.client('s3', region_name=AWS_REGION)
+                s3 = boto3.client('s3', region_name=AWS_REGION, aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)
                 s3.upload_fileobj(file, AWS_BUCKET, image_file, ExtraArgs={'ContentType': file.content_type})
         item = Item(title=title, description=description, price=price,
                    category=category, image=image_file, user_id=session['user_id'])
