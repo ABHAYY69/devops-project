@@ -2,17 +2,38 @@
 
 {% block content %}
 
-<!-- Hero Banner -->
+<!-- Hero -->
 <div class="hero-banner">
     <div class="container text-center">
-        <h1>🛍️ CampusBazaar</h1>
-        <p>Buy & Sell anything within your campus — Books, Electronics, Clothes & more!</p>
+        <h1>🛍️ Campus<span style="color:#ffe500">Bazaar</span></h1>
+        <p>Buy & Sell anything within your campus!</p>
         {% if not session.user_id %}
-        <a href="/register" class="btn btn-warning fw-bold px-4 py-2 me-2">Get Started Free</a>
-        <a href="/login" class="btn btn-outline-light px-4 py-2">Login</a>
+        <div class="d-flex gap-3 justify-content-center mt-4">
+            <a href="/register" class="btn btn-warning fw-bold px-5 py-3 rounded-pill">Get Started Free 🚀</a>
+            <a href="/login" class="btn btn-outline-light px-5 py-3 rounded-pill">Login</a>
+        </div>
         {% else %}
-        <a href="/post" class="btn btn-warning fw-bold px-4 py-2">+ Sell an Item</a>
+        <a href="/post" class="btn btn-warning fw-bold px-5 py-3 rounded-pill mt-4">+ Sell an Item</a>
         {% endif %}
+
+        <!-- Stats -->
+        <div class="row justify-content-center mt-5 g-3">
+            <div class="col-auto">
+                <div class="bg-white bg-opacity-20 rounded-3 px-4 py-2 text-white">
+                    <strong>100+</strong> Items Listed
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="bg-white bg-opacity-20 rounded-3 px-4 py-2 text-white">
+                    <strong>50+</strong> Students
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="bg-white bg-opacity-20 rounded-3 px-4 py-2 text-white">
+                    <strong>Free</strong> to Use
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -28,25 +49,22 @@
         <a href="/?category=Other" class="category-pill {% if category=='Other' %}active{% endif %}">📦 Other</a>
     </div>
 
-    <!-- Results count -->
     {% if items %}
     <p class="text-muted mb-3">Showing <strong>{{ items|length }}</strong> items</p>
-    {% endif %}
-
-    <!-- Items Grid -->
-    {% if items %}
     <div class="row g-4">
         {% for item in items %}
         <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="product-card h-100">
-                <img src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image }}" onerror="this.style.display='none'">
-                <div class="card-body d-flex flex-column">
+                <div style="overflow:hidden;">
+                    <img src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image }}" onerror="this.src='https://placehold.co/300x200?text=No+Image'">
+                </div>
+                <div class="card-body p-3 d-flex flex-column">
                     <span class="badge-cat mb-2">{{ item.category }}</span>
                     <p class="product-title">{{ item.title }}</p>
                     <p class="text-muted small mb-2">{{ item.description[:60] }}...</p>
                     <p class="product-price mb-1">₹{{ "{:,.0f}".format(item.price) }}</p>
                     <p class="product-college mb-3"><i class="fas fa-graduation-cap"></i> {{ item.seller.college }}</p>
-                    <a href="/item/{{ item.id }}" class="btn btn-buy mt-auto">View Details</a>
+                    <a href="/item/{{ item.id }}" class="btn btn-buy mt-auto">View Details →</a>
                 </div>
             </div>
         </div>
@@ -54,12 +72,11 @@
     </div>
     {% else %}
     <div class="text-center py-5">
-        <img src="https://via.placeholder.com/200x200?text=No+Items" class="mb-4 rounded-circle">
-        <h4 class="text-muted">No items found!</h4>
-        <p class="text-muted">Be the first to post something on CampusBazaar!</p>
-        <a href="/post" class="btn btn-primary px-4">Post an Item</a>
+        <div style="font-size:4rem">🛍️</div>
+        <h4 class="text-muted mt-3">No items found!</h4>
+        <p class="text-muted">Be the first to post something!</p>
+        <a href="/post" class="btn btn-primary px-4 rounded-pill">Post an Item</a>
     </div>
     {% endif %}
-
 </div>
 {% endblock %}

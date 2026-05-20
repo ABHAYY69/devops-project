@@ -41,4 +41,4 @@ jobs:
           docker pull 756269935915.dkr.ecr.ap-south-1.amazonaws.com/devops-app:latest
           docker stop devops-app || true
           docker rm devops-app || true
-          docker run -d --name devops-app -p 5000:5000 --env-file ~/myenv.env 756269935915.dkr.ecr.ap-south-1.amazonaws.com/devops-app:latest
+          docker run -d --name devops-app -p 5000:5000 --env-file ~/myenv.env 756269935915.dkr.ecr.ap-south-1.amazonaws.com/devops-app:latesttgy
