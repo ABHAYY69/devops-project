@@ -9,130 +9,81 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { font-family: 'Inter', sans-serif; }
-        body { background: #f5f5f5; }
+        body { background: #f0f2f5; }
 
         /* Navbar */
-        .navbar { background: #2874f0 !important; padding: 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .navbar { background: #2874f0 !important; padding: 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 999; }
         .navbar-brand { font-weight: 800; font-size: 1.6rem; color: white !important; }
         .navbar-brand span { color: #ffe500; }
         .nav-search { flex: 1; max-width: 500px; margin: 0 20px; }
         .nav-search input { border-radius: 4px 0 0 4px; border: none; padding: 10px 15px; font-size: 0.95rem; }
         .nav-search button { border-radius: 0 4px 4px 0; background: #ffe500; border: none; padding: 10px 20px; color: #333; font-weight: 600; }
-        .nav-search button:hover { background: #f0d800; }
-        .nav-link { color: white !important; font-weight: 500; font-size: 0.95rem; }
+        .nav-link { color: white !important; font-weight: 500; }
         .btn-nav { background: white; color: #2874f0; font-weight: 600; border-radius: 4px; padding: 8px 20px; border: none; }
-        .btn-nav:hover { background: #f0f0f0; }
 
-        /* Hero Banner */
-        .hero-banner { background: linear-gradient(135deg, #2874f0, #0050c8); color: white; padding: 50px 0; }
-        .hero-banner h1 { font-size: 2.5rem; font-weight: 800; }
+        /* Hero */
+        .hero-banner { background: linear-gradient(135deg, #1a56db, #2874f0, #0ea5e9); color: white; padding: 60px 0; }
+        .hero-banner h1 { font-size: 2.8rem; font-weight: 800; }
         .hero-banner p { font-size: 1.1rem; opacity: 0.9; }
 
-        /* Category Pills */
-        .category-pill { background: white; border: 2px solid #e0e0e0; color: #333; border-radius: 50px; padding: 8px 20px; font-weight: 500; font-size: 0.9rem; text-decoration: none; transition: all 0.2s; }
-        .category-pill:hover, .category-pill.active { background: #2874f0; border-color: #2874f0; color: white; }
+        /* Categories */
+        .category-pill { background: white; border: 2px solid #e0e0e0; color: #333; border-radius: 50px; padding: 8px 20px; font-weight: 500; font-size: 0.9rem; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 5px; }
+        .category-pill:hover, .category-pill.active { background: #2874f0; border-color: #2874f0; color: white; transform: translateY(-2px); }
 
-        /* Product Cards */
-        .product-card { background: white; border-radius: 8px; border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s; overflow: hidden; }
-        .product-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.12); transform: translateY(-3px); }
-        .product-card img { height: 200px; object-fit: cover; width: 100%; }
-        .product-card .card-body { padding: 15px; }
+        /* Cards */
+        .product-card { background: white; border-radius: 12px; border: none; box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: all 0.3s; overflow: hidden; }
+        .product-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.12); transform: translateY(-5px); }
+        .product-card img { height: 200px; object-fit: cover; width: 100%; transition: transform 0.3s; }
+        .product-card:hover img { transform: scale(1.05); }
         .product-title { font-weight: 600; font-size: 1rem; color: #212121; margin-bottom: 5px; }
-        .product-price { font-size: 1.3rem; font-weight: 700; color: #212121; }
+        .product-price { font-size: 1.3rem; font-weight: 700; color: #2874f0; }
         .product-college { font-size: 0.8rem; color: #878787; }
-        .btn-buy { background: #ff6000; color: white; border: none; border-radius: 4px; padding: 8px 20px; font-weight: 600; width: 100%; transition: all 0.2s; }
-        .btn-buy:hover { background: #e55500; color: white; }
-
-        /* Forms */
-        .form-card { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 35px; }
-        .form-control { border-radius: 4px; border: 1px solid #d0d0d0; padding: 12px 15px; }
-        .form-control:focus { border-color: #2874f0; box-shadow: 0 0 0 3px rgba(40,116,240,0.1); }
-        .btn-primary { background: #2874f0; border: none; border-radius: 4px; padding: 12px; font-weight: 600; }
-        .btn-primary:hover { background: #0050c8; }
-
-        /* Badge */
+        .btn-buy { background: linear-gradient(135deg, #ff6000, #ff8c00); color: white; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; width: 100%; transition: all 0.2s; }
+        .btn-buy:hover { background: linear-gradient(135deg, #e55500, #ff6000); color: white; transform: translateY(-1px); }
         .badge-cat { background: #e8f0fe; color: #2874f0; font-size: 0.75rem; padding: 4px 10px; border-radius: 50px; font-weight: 500; }
 
-        /* Stats Cards */
-        .stat-card { background: white; border-radius: 8px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #2874f0; }
+        /* Forms */
+        .form-card { background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 40px; }
+        .form-control, .form-select { border-radius: 8px; border: 1.5px solid #e0e0e0; padding: 12px 15px; transition: all 0.2s; }
+        .form-control:focus, .form-select:focus { border-color: #2874f0; box-shadow: 0 0 0 3px rgba(40,116,240,0.1); }
+        .btn-primary { background: linear-gradient(135deg, #2874f0, #1a56db); border: none; border-radius: 8px; padding: 12px; font-weight: 600; transition: all 0.2s; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(40,116,240,0.3); }
 
-        /* Footer */
-        footer { background: #212121; color: #878787; padding: 30px 0; margin-top: 60px; }
-        footer a { color: #878787; text-decoration: none; }
-        footer a:hover { color: white; }
-
-        footer a:hover { color: white; }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .navbar { padding: 8px 0; }
-            .navbar-brand { font-size: 1.2rem; }
-            .nav-search { margin: 8px 0; max-width: 100%; }
-            .hero-banner { padding: 30px 0; }
-            .hero-banner h1 { font-size: 1.8rem; }
-            .hero-banner p { font-size: 0.9rem; }
-            .product-card img { height: 160px; }
-            .product-price { font-size: 1.1rem; }
-            .category-pill { padding: 6px 12px; font-size: 0.8rem; }
-            .form-card { padding: 20px; }
-            footer { padding: 20px 0; }
-        }
-
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid #e0e0e0;
-            padding: 10px 0;
-            z-index: 1000;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        }
-
-        .mobile-nav a {
-            flex: 1;
-            text-align: center;
-            color: #878787;
-            text-decoration: none;
-            font-size: 0.7rem;
-        }
-
-        .mobile-nav a i { display: block; font-size: 1.2rem; margin-bottom: 2px; }
+        /* Mobile Bottom Nav */
+        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e0e0e0; padding: 8px 0; z-index: 1000; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+        .mobile-nav a { flex: 1; text-align: center; color: #878787; text-decoration: none; font-size: 0.7rem; padding: 4px 0; }
+        .mobile-nav a i { display: block; font-size: 1.3rem; margin-bottom: 2px; }
         .mobile-nav a.active { color: #2874f0; }
 
+        /* Footer */
+        footer { background: #1a1a2e; color: #878787; padding: 30px 0; margin-top: 60px; }
+
+        /* Mobile */
         @media (max-width: 768px) {
             .mobile-nav { display: flex; }
             body { padding-bottom: 70px; }
             .d-flex.align-items-center.gap-3 { display: none !important; }
+            .nav-search { margin: 8px 0; max-width: 100%; }
+            .hero-banner h1 { font-size: 1.8rem; }
+            .hero-banner { padding: 35px 0; }
+            .product-card img { height: 160px; }
+            .form-card { padding: 25px; }
         }
-    </style>
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="/">Campus<span>Bazaar</span></a>
-
-        <!-- Search -->
         <form class="nav-search d-flex" method="GET" action="/">
-            <input type="text" name="search" placeholder="Search for products, brands and more" class="form-control">
+            <input type="text" name="search" placeholder="Search items..." class="form-control">
             <button type="submit"><i class="fas fa-search"></i></button>
         </form>
-
         <div class="d-flex align-items-center gap-3">
             {% if session.user_id %}
                 <a href="/post" class="btn btn-nav"><i class="fas fa-plus"></i> Sell</a>
-                <a href="/inbox" class="nav-link position-relative">
-    <i class="fas fa-comment"></i>
-    {% if session.user_id %}
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.6rem;">
-    </span>
-    {% endif %}
-</a>
+                <a href="/inbox" class="nav-link"><i class="fas fa-comment"></i></a>
                 <a href="/dashboard" class="nav-link"><i class="fas fa-user"></i> {{ session.user_name.split()[0] }}</a>
                 <a href="/logout" class="nav-link"><i class="fas fa-sign-out-alt"></i></a>
             {% else %}
@@ -143,7 +94,6 @@
     </div>
 </nav>
 
-<!-- Alerts -->
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         <div class="container mt-3">
@@ -159,6 +109,21 @@
 
 {% block content %}{% endblock %}
 
+<div class="mobile-nav">
+    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
+        <i class="fas fa-home"></i> Home
+    </a>
+    <a href="/post" class="{% if request.path == '/post' %}active{% endif %}">
+        <i class="fas fa-plus-circle"></i> Sell
+    </a>
+    <a href="/inbox" class="{% if request.path == '/inbox' %}active{% endif %}">
+        <i class="fas fa-comment"></i> Chat
+    </a>
+    <a href="/dashboard" class="{% if request.path == '/dashboard' %}active{% endif %}">
+        <i class="fas fa-user"></i> Profile
+    </a>
+</div>
+
 <footer>
     <div class="container text-center">
         <p class="mb-1">🛍️ <strong style="color:white">CampusBazaar</strong> — Buy & Sell within your campus</p>
@@ -166,107 +131,6 @@
     </div>
 </footer>
 
-<!-- Mobile Bottom Navigation -->
-<div class="mobile-nav">
-    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
-        <i class="fas fa-home"></i> Home
-    </a>
-    <a href="/post" class="{% if request.path == '/post' %}active{% endif %}">
-        <i class="fas fa-plus-circle"></i> Sell
-    </a>
-    <a href="/inbox" class="{% if request.path == '/inbox' %}active{% endif %}">
-        <i class="fas fa-comment"></i> Inbox
-    </a>
-    <a href="/dashboard" class="{% if request.path == '/dashboard' %}active{% endif %}">
-        <i class="fas fa-user"></i> Profile
-    </a>
-</div>
-
-<!-- Mobile Bottom Navigation -->
-<div class="mobile-nav">
-    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
-        <i class="fas fa-home"></i> Home
-    </a>
-    <a href="/post" class="{% if request.path == '/post' %}active{% endif %}">
-        <i class="fas fa-plus-circle"></i> Sell
-    </a>
-    <a href="/inbox" class="{% if request.path == '/inbox' %}active{% endif %}">
-        <i class="fas fa-comment"></i> Inbox
-    </a>
-    <a href="/dashboard" class="{% if request.path == '/dashboard' %}active{% endif %}">
-        <i class="fas fa-user"></i> Profile
-    </a>
-</div>
-
-<!-- Mobile Bottom Navigation -->
-<div class="mobile-nav">
-    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
-        <i class="fas fa-home"></i> Home
-    </a>
-    <a href="/post" class="{% if request.path == '/post' %}active{% endif %}">
-        <i class="fas fa-plus-circle"></i> Sell
-    </a>
-    <a href="/inbox" class="{% if request.path == '/inbox' %}active{% endif %}">
-        <i class="fas fa-comment"></i> Inbox
-    </a>
-    <a href="/dashboard" class="{% if request.path == '/dashboard' %}active{% endif %}">
-        <i class="fas fa-user"></i> Profile
-    </a>
-</div>
-
-<!-- Mobile Bottom Navigation -->
-<div class="mobile-nav">
-    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
-        <i class="fas fa-home"></i> Home
-    </a>
-    <a href="/post" class="{% if request.path == '/post' %}active{% endif %}">
-        <i class="fas fa-plus-circle"></i> Sell
-    </a>
-    <a href="/inbox" class="{% if request.path == '/inbox' %}active{% endif %}">
-        <i class="fas fa-comment"></i> Inbox
-    </a>
-    <a href="/dashboard" class="{% if request.path == '/dashboard' %}active{% endif %}">
-        <i class="fas fa-user"></i> Profile
-    </a>
-</div>
-
-<div class="mobile-nav">
-    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
-        <i class="fas fa-home"></i> Home
-    </a>
-    <a href="/post" class="{% if request.path == '/post' %}active{% endif %}">
-        <i class="fas fa-plus-circle"></i> Sell
-    </a>
-    <a href="/inbox" class="{% if request.path == '/inbox' %}active{% endif %}">
-        <i class="fas fa-comment"></i> Inbox
-    </a>
-    <a href="/dashboard" class="{% if request.path == '/dashboard' %}active{% endif %}">
-        <i class="fas fa-user"></i> Profile
-    </a>
-</div>
-
-<!-- Mobile Bottom Navigation -->
-<div class="mobile-nav">
-    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
-        <i class="fas fa-home"></i> Home
-    </a>
-    <a href="/post" class="{% if request.path == '/post' %}active{% endif %}">
-        <i class="fas fa-plus-circle"></i> Sell
-    </a>
-    <a href="/inbox" class="{% if request.path == '/inbox' %}active{% endif %}">
-        <i class="fas fa-comment"></i> Inbox
-    </a>
-    <a href="/dashboard" class="{% if request.path == '/dashboard' %}active{% endif %}">
-        <i class="fas fa-user"></i> Profile
-    </a>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<div class="mobile-nav">
-    <a href="/"><i class="fas fa-home"></i> Home</a>
-    <a href="/post"><i class="fas fa-plus-circle"></i> Sell</a>
-    <a href="/inbox"><i class="fas fa-comment"></i> Inbox</a>
-    <a href="/dashboard"><i class="fas fa-user"></i> Profile</a>
-</div>
 </body>
 </html>
