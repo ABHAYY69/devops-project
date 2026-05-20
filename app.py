@@ -12,8 +12,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dbadmin:CampusBazaar123!@c
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 AWS_BUCKET = 'campusbazaar-images-756269935915'
 AWS_REGION = 'ap-south-1'
-AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY_ID', '')
-AWS_SECRET_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
+AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
