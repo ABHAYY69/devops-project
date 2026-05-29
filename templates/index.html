@@ -1,24 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<div class="flex min-h-screen">
+<div class="pt-0 flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="hidden md:flex w-64 flex-col fixed left-0 h-[calc(100vh-64px)] bg-white border-r border-outline-variant px-6 py-8 overflow-y-auto">
+    <aside class="hidden md:flex w-64 flex-col fixed left-0 h-[calc(100vh-64px)] bg-surface border-r border-outline-variant px-6 py-8 overflow-y-auto">
         <div class="mb-8">
             <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-4 font-semibold">Categories</p>
             <ul class="space-y-2">
-                <li><a href="/" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if not category %}bg-surface-container text-primary{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
-                    <span class="material-symbols-outlined text-lg">home</span><span>All Items</span></a></li>
-                <li><a href="/?category=Books" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if category=='Books' %}bg-surface-container text-primary{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
-                    <span class="material-symbols-outlined text-lg">menu_book</span><span>Books</span></a></li>
-                <li><a href="/?category=Electronics" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if category=='Electronics' %}bg-surface-container text-primary{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
+                <li><a href="/" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if not category %}bg-primary-container text-white{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">home</span><span>Feed</span></a></li>
+                <li><a href="/?category=Books" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if category=='Books' %}bg-primary-container text-white{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">menu_book</span><span>Textbooks</span></a></li>
+                <li><a href="/?category=Electronics" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if category=='Electronics' %}bg-primary-container text-white{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
                     <span class="material-symbols-outlined text-lg">laptop_mac</span><span>Electronics</span></a></li>
-                <li><a href="/?category=Clothes" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if category=='Clothes' %}bg-surface-container text-primary{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
-                    <span class="material-symbols-outlined text-lg">apparel</span><span>Clothes</span></a></li>
-                <li><a href="/?category=Sports" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if category=='Sports' %}bg-surface-container text-primary{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
+                <li><a href="/?category=Clothes" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if category=='Clothes' %}bg-primary-container text-white{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">apparel</span><span>Fashion</span></a></li>
+                <li><a href="/?category=Sports" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if category=='Sports' %}bg-primary-container text-white{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
                     <span class="material-symbols-outlined text-lg">sports_soccer</span><span>Sports</span></a></li>
-                <li><a href="/?category=Other" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if category=='Other' %}bg-surface-container text-primary{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
+                <li><a href="/?category=Other" class="flex items-center gap-3 px-3 py-2 rounded-xl {% if category=='Other' %}bg-primary-container text-white{% else %}text-on-surface-variant hover:bg-surface-container-low{% endif %} font-semibold text-sm transition-colors">
                     <span class="material-symbols-outlined text-lg">category</span><span>Other</span></a></li>
             </ul>
         </div>
@@ -31,76 +30,121 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 md:ml-64 px-4 md:px-8 py-8 max-w-7xl mx-auto w-full">
+    <main class="flex-1 md:ml-64 px-4 md:px-6 py-8 max-w-7xl mx-auto w-full">
 
-        <!-- Hero Banner -->
-        <section class="mb-10 relative h-64 md:h-80 rounded-3xl overflow-hidden shadow-lg">
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width:100%; height:100%; display:flex; align-items:center; padding:40px;">
-                <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold mb-4">🎓 Made for College Students</span>
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2" style="font-family:Montserrat;">Buy & Sell <span style="color:#ffe500;">Smarter</span> on Campus</h2>
-                    <p class="text-white/80 text-sm mb-6 max-w-md">The easiest way to buy and sell within your college. Safe, fast and 100% free!</p>
+        <!-- Hero Section -->
+        <section class="mb-12 relative h-80 rounded-3xl overflow-hidden shadow-lg group">
+            <div class="w-full h-full" style="background: linear-gradient(135deg, #1a56db 0%, #2874f0 50%, #0ea5e9 100%);">
+                <div class="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
+                    <span class="inline-block px-3 py-1 rounded-full bg-secondary-container text-white text-xs font-semibold mb-4 w-fit">🎓 Made for College Students</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2" style="font-family:Montserrat; letter-spacing:-0.02em;">Buy & Sell <span style="color:#ffe500;">Smarter</span> on Campus</h2>
+                    <p class="text-white/90 text-lg max-w-xl mb-6">The easiest way to trade within your college. Safe, fast and 100% free!</p>
                     {% if not session.user_id %}
                     <div class="flex gap-3">
-                        <a href="/register" class="px-6 py-2.5 rounded-full font-semibold text-sm" style="background:#ffe500; color:#333;">Get Started 🚀</a>
-                        <a href="/login" class="px-6 py-2.5 rounded-full font-semibold text-sm border-2 border-white/40 text-white">Login</a>
+                        <a href="/register" class="px-8 py-3 rounded-full font-semibold text-sm shadow-lg" style="background:#ffe500; color:#333;">Get Started Free 🚀</a>
+                        <a href="/login" class="px-8 py-3 rounded-full font-semibold text-sm border-2 border-white/40 text-white">Login</a>
                     </div>
                     {% else %}
-                    <a href="/post" class="px-6 py-2.5 rounded-full font-semibold text-sm inline-block" style="background:#ffe500; color:#333;">+ List an Item</a>
+                    <a href="/post" class="px-8 py-3 rounded-full font-semibold text-sm inline-block shadow-lg" style="background:#ffe500; color:#333;">+ List an Item</a>
                     {% endif %}
                 </div>
-                <div class="hidden md:block ml-auto text-8xl">🛍️</div>
+                <div class="absolute right-12 top-1/2 -translate-y-1/2 text-9xl hidden md:block" style="filter:drop-shadow(0 20px 40px rgba(0,0,0,0.3));">🛍️</div>
             </div>
         </section>
 
-        <!-- Mobile Search -->
-        <div class="md:hidden mb-6">
-            <form method="GET" action="/">
-                <div class="flex bg-white border border-outline-variant rounded-full overflow-hidden shadow-sm">
-                    <input name="search" class="flex-1 px-4 py-3 text-sm outline-none" placeholder="Search items..." type="text" value="{{ search }}">
-                    <button type="submit" class="px-4 text-primary">
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Items -->
         {% if items %}
-        <div class="flex items-center justify-between mb-6">
-            <h3 class="text-xl font-bold text-on-background" style="font-family:Montserrat;">Fresh Finds</h3>
-            <span class="text-sm text-on-surface-variant">{{ items|length }} items</span>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {% for item in items %}
-            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm border border-outline-variant hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <div class="aspect-square overflow-hidden bg-surface-container relative">
-                    <img src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image }}"
-                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                         onerror="this.src='https://placehold.co/300x300?text=No+Image'">
-                    <span class="absolute top-2 left-2 bg-primary-container text-white px-2 py-0.5 rounded text-xs font-semibold">{{ item.category }}</span>
-                </div>
-                <div class="p-3">
-                    <p class="font-semibold text-sm text-on-background group-hover:text-primary transition-colors mb-1 line-clamp-1">{{ item.title }}</p>
-                    <p class="text-xs text-on-surface-variant mb-2 line-clamp-1">{{ item.description[:40] }}...</p>
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-primary font-bold text-base">₹{{ "{:,.0f}".format(item.price) }}</span>
-                    </div>
-                    <p class="text-xs text-on-surface-variant mb-3"><span class="material-symbols-outlined text-xs">school</span> {{ item.seller.college[:20] }}</p>
-                    <a href="/item/{{ item.id }}" class="block text-center bg-primary text-white py-2 rounded-xl text-xs font-semibold hover:bg-primary-container transition-colors">View Details →</a>
-                </div>
+        <!-- Featured Items (Horizontal Scroll) -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-on-background" style="font-family:Montserrat;">Curated for You</h3>
+                <a href="/" class="text-primary text-sm font-semibold hover:underline">View All</a>
             </div>
-            {% endfor %}
-        </div>
+            <div class="flex gap-6 overflow-x-auto pb-4 hide-scrollbar">
+                {% for item in items[:4] %}
+                <div class="min-w-[280px] md:min-w-[340px] bg-surface rounded-2xl shadow-sm border border-outline-variant hover:shadow-md transition-all cursor-pointer overflow-hidden flex flex-col">
+                    <div class="h-48 relative overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                             src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image }}"
+                             onerror="this.src='https://placehold.co/340x200?text={{ item.category }}'">
+                        <span class="absolute top-3 left-3 bg-tertiary-container text-white px-2 py-1 rounded text-xs font-semibold">{{ item.category }}</span>
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-semibold text-base text-on-background line-clamp-1">{{ item.title }}</h4>
+                            <span class="text-primary font-bold text-base ml-2">₹{{ "{:,.0f}".format(item.price) }}</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm line-clamp-2 mb-4">{{ item.description[:80] }}</p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">{{ item.seller.name[0] }}</div>
+                                <span class="text-xs text-on-surface-variant">{{ item.seller.name.split()[0] }}</span>
+                            </div>
+                            <a href="/item/{{ item.id }}" class="text-primary text-xs font-semibold hover:underline">View →</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Fresh Finds Grid -->
+        <section class="mb-20">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-on-background" style="font-family:Montserrat;">Fresh Finds</h3>
+                <span class="text-sm text-on-surface-variant">{{ items|length }} items</span>
+            </div>
+            <div class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+                {% for item in items %}
+                <a href="/item/{{ item.id }}" class="group cursor-pointer no-underline">
+                    <div class="aspect-square rounded-2xl overflow-hidden bg-surface-container mb-3 relative">
+                        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                             src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image }}"
+                             onerror="this.src='https://placehold.co/300x300?text={{ item.category }}'">
+                        <button class="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                            <span class="material-symbols-outlined text-primary text-sm">favorite</span>
+                        </button>
+                    </div>
+                    <div class="space-y-1 px-1">
+                        <p class="font-semibold text-sm text-on-background group-hover:text-primary transition-colors line-clamp-1">{{ item.title }}</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-primary font-bold text-sm">₹{{ "{:,.0f}".format(item.price) }}</p>
+                            <span class="text-xs text-on-surface-variant">{{ item.category }}</span>
+                        </div>
+                        <p class="text-xs text-on-surface-variant">🎓 {{ item.seller.college[:20] }}</p>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+
         {% else %}
         <div class="text-center py-20">
             <div class="text-6xl mb-4">😕</div>
             <h4 class="text-xl font-bold text-on-background mb-2">No items found!</h4>
             <p class="text-on-surface-variant mb-6">Be the first to post something on CampusBazaar!</p>
-            <a href="/post" class="px-8 py-3 rounded-full font-semibold text-white inline-block" style="background: linear-gradient(135deg, #667eea, #764ba2);">Post Your First Item 🚀</a>
+            <a href="/post" class="px-8 py-3 rounded-full font-semibold text-white inline-block" style="background:linear-gradient(135deg,#667eea,#764ba2);">Post Your First Item 🚀</a>
         </div>
         {% endif %}
+
     </main>
 </div>
 
+<!-- Floating Action Button Mobile -->
+<button class="md:hidden fixed bottom-20 right-6 w-14 h-14 bg-secondary-container text-white rounded-full shadow-2xl flex items-center justify-center z-50 active:scale-90 transition-transform" onclick="window.location='/post'">
+    <span class="material-symbols-outlined text-3xl">add</span>
+</button>
+
+<script>
+    const sidebarLinks = document.querySelectorAll('aside a');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            sidebarLinks.forEach(l => {
+                l.classList.remove('bg-primary-container', 'text-white');
+                l.classList.add('text-on-surface-variant');
+            });
+            link.classList.add('bg-primary-container', 'text-white');
+            link.classList.remove('text-on-surface-variant');
+        });
+    });
+</script>
 {% endblock %}
