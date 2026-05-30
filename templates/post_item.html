@@ -1,28 +1,93 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-7">
-            <div class="form-card">
-                <h3 class="fw-bold mb-1">Sell an Item</h3>
-                <p class="text-muted mb-4">List your item and reach thousands of students!</p>
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="hidden md:flex w-64 flex-col fixed left-0 h-[calc(100vh-64px)] bg-white border-r border-outline-variant px-6 py-8 overflow-y-auto">
+        <div class="mb-8">
+            <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-4 font-semibold">Categories</p>
+            <ul class="space-y-2">
+                <li><a href="/" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">home</span><span>Feed</span></a></li>
+                <li><a href="/?category=Books" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">menu_book</span><span>Textbooks</span></a></li>
+                <li><a href="/?category=Electronics" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">laptop_mac</span><span>Electronics</span></a></li>
+                <li><a href="/?category=Clothes" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">apparel</span><span>Clothes</span></a></li>
+                <li><a href="/?category=Sports" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">sports_soccer</span><span>Sports</span></a></li>
+                <li><a href="/?category=Other" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">category</span><span>Other</span></a></li>
+            </ul>
+        </div>
+        <div class="mt-auto">
+            <div class="p-4 bg-surface-container rounded-2xl border border-outline-variant">
+                <p class="font-semibold text-primary text-sm mb-2">Selling Tips 💡</p>
+                <p class="text-xs text-on-surface-variant leading-relaxed">Add clear photos and honest descriptions to sell faster!</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 md:ml-64 px-4 md:px-8 py-8">
+        <div class="max-w-2xl mx-auto">
+
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold text-on-background" style="font-family:Montserrat;">List an Item 📦</h1>
+                <p class="text-on-surface-variant text-sm mt-1">Fill in the details below to reach thousands of students!</p>
+            </div>
+
+            <!-- Form Card -->
+            <div class="bg-white rounded-3xl shadow-sm border border-outline-variant p-6 md:p-8">
                 <form method="POST" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Item Title</label>
-                        <input type="text" name="title" class="form-control" placeholder="e.g. Physics Textbook 2nd Year" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Description</label>
-                        <textarea name="description" class="form-control" rows="3" placeholder="Describe condition, age, reason for selling..." required></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Price (₹)</label>
-                            <input type="number" name="price" class="form-control" placeholder="0" required>
+
+                    <!-- Image Upload -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-on-background mb-2">Item Photo</label>
+                        <div class="border-2 border-dashed border-outline-variant rounded-2xl p-8 text-center cursor-pointer hover:border-primary transition-colors" onclick="document.getElementById('imageInput').click()">
+                            <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2 block">add_photo_alternate</span>
+                            <p class="text-sm font-semibold text-on-background">Click to upload photo</p>
+                            <p class="text-xs text-on-surface-variant mt-1">PNG, JPG up to 16MB</p>
+                            <input type="file" id="imageInput" name="image" accept="image/*" class="hidden" onchange="previewImage(this)">
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Category</label>
-                            <select name="category" class="form-select" required>
+                        <div id="imagePreview" class="hidden mt-3">
+                            <img id="previewImg" class="w-full h-48 object-cover rounded-2xl" src="" alt="Preview">
+                        </div>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-on-background mb-2">Item Title *</label>
+                        <input type="text" name="title" required
+                            class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                            placeholder="e.g. Physics Textbook 2nd Year">
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-on-background mb-2">Description *</label>
+                        <textarea name="description" required rows="4"
+                            class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm resize-none"
+                            placeholder="Describe the condition, age, reason for selling..."></textarea>
+                    </div>
+
+                    <!-- Price and Category -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-on-background mb-2">Price (₹) *</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold">₹</span>
+                                <input type="number" name="price" required
+                                    class="w-full pl-8 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                                    placeholder="0">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-on-background mb-2">Category *</label>
+                            <select name="category" required
+                                class="w-full px-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm">
                                 <option value="">Select category</option>
                                 <option value="Books">📚 Books</option>
                                 <option value="Electronics">💻 Electronics</option>
@@ -32,15 +97,29 @@
                             </select>
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <label class="form-label fw-bold">Item Image</label>
-                        <input type="file" name="image" class="form-control" accept="image/*">
-                        <small class="text-muted">Upload a clear photo for better visibility</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 py-2">🚀 Post Item</button>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-4 rounded-2xl text-white font-bold text-base transition-all active:scale-95 hover:opacity-90" style="background: linear-gradient(135deg, #0058be, #2170e4);">
+                        <span class="material-symbols-outlined align-middle mr-2">rocket_launch</span>
+                        Post Item Now
+                    </button>
+
                 </form>
             </div>
         </div>
-    </div>
+    </main>
 </div>
+
+<script>
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('previewImg').src = e.target.result;
+            document.getElementById('imagePreview').classList.remove('hidden');
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 {% endblock %}
