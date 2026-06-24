@@ -1,26 +1,80 @@
-
 {% extends "base.html" %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="form-card">
-                <h3 class="fw-bold mb-1">Welcome Back!</h3>
-                <p class="text-muted mb-4">Login to your CampusBazaar account</p>
-                <form method="POST">
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" placeholder="college@email.com" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" placeholder="Your password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
-                </form>
-                <p class="text-center mt-3 text-muted">New here? <a href="/register" class="text-primary fw-bold">Create Account</a></p>
-            </div>
+<div class="min-h-screen bg-background flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="text-5xl mb-3">🛍️</div>
+            <h1 class="text-2xl font-bold text-primary" style="font-family:Montserrat;">CampusBazaar</h1>
+            <p class="text-on-surface-variant text-sm mt-1">Buy & Sell Smarter on Campus</p>
         </div>
+
+        <!-- Card -->
+        <div class="bg-white rounded-3xl shadow-sm border border-outline-variant p-8">
+            <h2 class="text-xl font-bold text-on-background mb-1" style="font-family:Montserrat;">Welcome back 👋</h2>
+            <p class="text-on-surface-variant text-sm mb-6">Login to your account</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="mb-4 px-4 py-3 rounded-xl text-sm font-medium {% if category == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <!-- Email -->
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-on-background mb-2">Email Address</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">mail</span>
+                        <input type="email" name="email" required
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                            placeholder="your@email.com">
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-on-background mb-2">Password</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">lock</span>
+                        <input type="password" name="password" required
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                            placeholder="Enter your password">
+                    </div>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" class="w-full py-3.5 rounded-2xl text-white font-bold text-base transition-all active:scale-95 hover:opacity-90 mb-4" style="background: linear-gradient(135deg, #0058be, #2170e4);">
+                    Login to CampusBazaar
+                </button>
+
+                <!-- Divider -->
+                <div class="flex items-center gap-3 my-4">
+                    <div class="flex-1 h-px bg-outline-variant"></div>
+                    <span class="text-xs text-on-surface-variant">or</span>
+                    <div class="flex-1 h-px bg-outline-variant"></div>
+                </div>
+
+                <!-- Register Link -->
+                <p class="text-center text-sm text-on-surface-variant">
+                    Don't have an account?
+                    <a href="/register" class="text-primary font-semibold hover:underline ml-1">Sign Up Free</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- Safety Note -->
+        <div class="mt-6 p-4 bg-white rounded-2xl border border-outline-variant flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary text-lg mt-0.5">verified_user</span>
+            <p class="text-xs text-on-surface-variant leading-relaxed">CampusBazaar is exclusively for college students. Your data is safe and never shared.</p>
+        </div>
+
     </div>
 </div>
 {% endblock %}
