@@ -1,37 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-7">
-            <div class="bg-white rounded-3 shadow-sm">
-                <div class="p-4 border-bottom">
-                    <h4 class="fw-bold mb-0">💬 Inbox</h4>
-                </div>
+<div class="flex min-h-screen">
+    <aside class="hidden md:flex w-64 flex-col fixed left-0 h-[calc(100vh-64px)] bg-white border-r border-outline-variant px-6 py-8 overflow-y-auto">
+        <div class="mb-8">
+            <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-4 font-semibold">Categories</p>
+            <ul class="space-y-2">
+                <li><a href="/" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">home</span><span>Feed</span></a></li>
+                <li><a href="/?category=Books" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">menu_book</span><span>Textbooks</span></a></li>
+                <li><a href="/?category=Electronics" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">laptop_mac</span><span>Electronics</span></a></li>
+                <li><a href="/?category=Clothes" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">apparel</span><span>Clothes</span></a></li>
+                <li><a href="/?category=Sports" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">sports_soccer</span><span>Sports</span></a></li>
+                <li><a href="/?category=Other" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">category</span><span>Other</span></a></li>
+            </ul>
+        </div>
+        <div class="mt-auto">
+            <div class="p-4 bg-surface-container rounded-2xl border border-outline-variant">
+                <p class="font-semibold text-primary text-sm mb-2">Safety Tip 🔒</p>
+                <p class="text-xs text-on-surface-variant leading-relaxed">Always meet in well-lit public campus areas for exchanges.</p>
+            </div>
+        </div>
+    </aside>
+    <main class="flex-1 md:ml-64 px-4 md:px-8 py-8">
+        <div class="max-w-2xl mx-auto">
+            <h1 class="text-2xl font-bold text-on-background mb-6" style="font-family:Montserrat;">💬 Messages</h1>
+            <div class="bg-white rounded-3xl border border-outline-variant shadow-sm overflow-hidden">
                 {% if contacts %}
                     {% for contact in contacts %}
-                    <a href="/chat/{{ contact.id }}" class="text-decoration-none">
-                        <div class="d-flex align-items-center p-3 border-bottom" style="transition:0.2s;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
-                            <div style="width:50px; height:50px; background:#2874f0; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                                <i class="fas fa-user text-white"></i>
-                            </div>
-                            <div class="ms-3">
-                                <p class="fw-bold mb-0 text-dark">{{ contact.name }}</p>
-                                <p class="text-muted small mb-0">{{ contact.college }}</p>
-                            </div>
+                    <a href="/chat/{{ contact.id }}" class="flex items-center gap-4 p-4 border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+                        <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                            {{ contact.name[0].upper() }}
                         </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-bold text-on-background text-sm">{{ contact.name }}</p>
+                            <p class="text-on-surface-variant text-xs truncate">{{ contact.college }}</p>
+                        </div>
+                        <span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
                     </a>
                     {% endfor %}
                 {% else %}
-                    <div class="text-center py-5">
-                        <i class="fas fa-comments fa-3x text-muted mb-3"></i>
-                        <h5 class="text-muted">No conversations yet!</h5>
-                        <p class="text-muted">Start chatting with sellers from item pages</p>
-                        <a href="/" class="btn btn-primary">Browse Items</a>
-                    </div>
+                <div class="text-center py-16">
+                    <span class="material-symbols-outlined text-5xl text-on-surface-variant mb-4 block">chat_bubble</span>
+                    <h3 class="font-bold text-on-background mb-2">No conversations yet!</h3>
+                    <p class="text-on-surface-variant text-sm mb-6">Start chatting with sellers from item pages</p>
+                    <a href="/" class="px-6 py-3 rounded-full text-white font-semibold text-sm inline-block" style="background: linear-gradient(135deg, #0058be, #2170e4);">Browse Items</a>
+                </div>
                 {% endif %}
             </div>
         </div>
-    </div>
+    </main>
 </div>
 {% endblock %}

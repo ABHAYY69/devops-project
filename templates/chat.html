@@ -1,63 +1,68 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-7">
-            <div class="bg-white rounded-3 shadow-sm" style="height:80vh; display:flex; flex-direction:column;">
-                
-                <!-- Chat Header -->
-                <div class="p-3 border-bottom d-flex align-items-center">
-                    <a href="/inbox" class="btn btn-sm btn-outline-secondary me-3">←</a>
-                    <div style="width:40px; height:40px; background:#2874f0; border-radius:50%; display:flex; align-items:center; justify-content:center;">
-                        <i class="fas fa-user text-white"></i>
-                    </div>
-                    <div class="ms-2">
-                        <p class="fw-bold mb-0">{{ other_user.name }}</p>
-                        <p class="text-muted small mb-0">{{ other_user.college }}</p>
-                    </div>
-                </div>
-
-                <!-- Messages -->
-                <div id="messages" style="flex:1; overflow-y:auto; padding:20px;">
-                    {% for msg in messages %}
-                    <div class="d-flex {% if msg.sender_id == my_id %}justify-content-end{% endif %} mb-2">
-                        <div style="max-width:70%; padding:10px 15px; border-radius:{% if msg.sender_id == my_id %}18px 18px 4px 18px{% else %}18px 18px 18px 4px{% endif %}; background:{% if msg.sender_id == my_id %}#2874f0{% else %}#f0f0f0{% endif %}; color:{% if msg.sender_id == my_id %}white{% else %}#212121{% endif %};">
-                            <p class="mb-1">{{ msg.content }}</p>
-                            <p class="mb-0" style="font-size:0.7rem; opacity:0.7;">{{ msg.timestamp.strftime('%H:%M') }}</p>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-
-                <!-- Input -->
-                <div class="p-3 border-top">
-                    <div class="d-flex gap-2">
-                        <input type="text" id="messageInput" class="form-control" placeholder="Type a message..." autocomplete="off">
-                        <button onclick="sendMessage()" class="btn btn-primary px-4">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
+<div class="flex min-h-screen">
+    <aside class="hidden md:flex w-64 flex-col fixed left-0 h-[calc(100vh-64px)] bg-white border-r border-outline-variant px-6 py-8 overflow-y-auto">
+        <div class="mb-8">
+            <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-4 font-semibold">Categories</p>
+            <ul class="space-y-2">
+                <li><a href="/" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">home</span><span>Feed</span></a></li>
+                <li><a href="/?category=Books" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">menu_book</span><span>Textbooks</span></a></li>
+                <li><a href="/?category=Electronics" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">laptop_mac</span><span>Electronics</span></a></li>
+                <li><a href="/?category=Clothes" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">apparel</span><span>Clothes</span></a></li>
+                <li><a href="/?category=Sports" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">sports_soccer</span><span>Sports</span></a></li>
+                <li><a href="/?category=Other" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors"><span class="material-symbols-outlined text-lg">category</span><span>Other</span></a></li>
+            </ul>
+        </div>
+        <div class="mt-auto">
+            <div class="p-4 bg-surface-container rounded-2xl border border-outline-variant">
+                <p class="font-semibold text-primary text-sm mb-2">Safety Tip 🔒</p>
+                <p class="text-xs text-on-surface-variant leading-relaxed">Always meet in well-lit public campus areas for exchanges.</p>
             </div>
         </div>
-    </div>
+    </aside>
+    <main class="flex-1 md:ml-64 flex flex-col" style="height: calc(100vh - 64px);">
+        <div class="bg-white border-b border-outline-variant px-4 py-3 flex items-center gap-3 flex-shrink-0">
+            <a href="/inbox" class="p-2 hover:bg-surface-container-low rounded-full transition-colors">
+                <span class="material-symbols-outlined text-on-surface-variant">arrow_back</span>
+            </a>
+            <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                {{ other_user.name[0].upper() }}
+            </div>
+            <div>
+                <p class="font-bold text-on-background text-sm">{{ other_user.name }}</p>
+                <p class="text-xs text-on-surface-variant">{{ other_user.college }}</p>
+            </div>
+        </div>
+        <div id="messages" class="flex-1 overflow-y-auto px-4 py-6 space-y-3 bg-background">
+            {% for msg in messages %}
+            <div class="flex {% if msg.sender_id == my_id %}justify-end{% endif %}">
+                <div class="max-w-xs md:max-w-md px-4 py-2.5 rounded-2xl {% if msg.sender_id == my_id %}rounded-br-sm text-white{% else %}rounded-bl-sm bg-white border border-outline-variant text-on-background{% endif %}" {% if msg.sender_id == my_id %}style="background: linear-gradient(135deg, #0058be, #2170e4);"{% endif %}>
+                    <p class="text-sm">{{ msg.content }}</p>
+                    <p class="text-xs mt-1 {% if msg.sender_id == my_id %}text-white/70{% else %}text-on-surface-variant{% endif %}">{{ msg.timestamp.strftime('%H:%M') }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="bg-white border-t border-outline-variant px-4 py-3 flex-shrink-0">
+            <div class="flex items-center gap-3 bg-surface-container-low rounded-full px-4 py-2">
+                <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off"
+                    class="flex-1 bg-transparent text-sm outline-none text-on-background placeholder:text-on-surface-variant">
+                <button onclick="sendMessage()" class="w-9 h-9 rounded-full flex items-center justify-center text-white flex-shrink-0" style="background: linear-gradient(135deg, #0058be, #2170e4);">
+                    <span class="material-symbols-outlined text-lg">send</span>
+                </button>
+            </div>
+        </div>
+    </main>
 </div>
-
 <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
 <script>
     const socket = io();
     const myId = {{ my_id }};
     const receiverId = {{ other_user.id }};
-
-    // Join room
     socket.emit('join', { receiver_id: receiverId });
-
-    // Scroll to bottom
     const messagesDiv = document.getElementById('messages');
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-    // Send message
     function sendMessage() {
         const input = document.getElementById('messageInput');
         const content = input.value.trim();
@@ -65,23 +70,14 @@
         socket.emit('send_message', { receiver_id: receiverId, content: content });
         input.value = '';
     }
-
-    // Enter key
     document.getElementById('messageInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') sendMessage();
     });
-
-    // Receive message
     socket.on('receive_message', function(data) {
-        const messagesDiv = document.getElementById('messages');
         const isMe = data.sender_id === myId;
         const div = document.createElement('div');
-        div.className = `d-flex ${isMe ? 'justify-content-end' : ''} mb-2`;
-        div.innerHTML = `
-            <div style="max-width:70%; padding:10px 15px; border-radius:${isMe ? '18px 18px 4px 18px' : '18px 18px 18px 4px'}; background:${isMe ? '#2874f0' : '#f0f0f0'}; color:${isMe ? 'white' : '#212121'};">
-                <p class="mb-1">${data.content}</p>
-                <p class="mb-0" style="font-size:0.7rem; opacity:0.7;">${data.timestamp}</p>
-            </div>`;
+        div.className = `flex ${isMe ? 'justify-end' : ''}`;
+        div.innerHTML = `<div class="max-w-xs md:max-w-md px-4 py-2.5 rounded-2xl ${isMe ? 'rounded-br-sm text-white' : 'rounded-bl-sm bg-white border border-outline-variant text-on-background'}" ${isMe ? 'style="background: linear-gradient(135deg, #0058be, #2170e4);"' : ''}><p class="text-sm">${data.content}</p><p class="text-xs mt-1 ${isMe ? 'text-white/70' : 'text-on-surface-variant'}">${data.timestamp}</p></div>`;
         messagesDiv.appendChild(div);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     });
