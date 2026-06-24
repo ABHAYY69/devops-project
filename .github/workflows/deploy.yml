@@ -2,8 +2,7 @@ name: Deploy to AWS
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   deploy:
@@ -20,11 +19,11 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-south-1
 
-    - name: Login to ECR
+    - name: Login to Amazon ECR
       run: |
         aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 756269935915.dkr.ecr.ap-south-1.amazonaws.com
 
-    - name: Build and push Docker image
+    - name: Build and Push Docker image
       run: |
         docker build -t devops-app .
         docker tag devops-app:latest 756269935915.dkr.ecr.ap-south-1.amazonaws.com/devops-app:latest
@@ -38,7 +37,8 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 756269935915.dkr.ecr.ap-south-1.amazonaws.com
-          docker pull 756269935915.dkr.ecr.ap-south-1.amazonaws.com/devops-app:latest
           docker stop devops-app || true
           docker rm devops-app || true
-          docker run -d --name devops-app -p 5000:5000 756269935915.dkr.ecr.ap-south-1.amazonaws.com/devops-app:latest
+          docker rmi 756269935915.dkr.ecr.ap-south-1.amazonaws.com/devops-app:latest || true
+          docker pull 756269935915.dkr.ecr.ap-south-1.amazonaws.com/devops-app:latest
+          docker run -d --name devops-app -p 5000:5000 --env-file ~/myenv.env 756269935915.dkr.ecr.ap-south-1.amazonaws.com/devops-app:latest
