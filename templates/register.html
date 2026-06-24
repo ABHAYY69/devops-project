@@ -1,33 +1,92 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="form-card">
-                <h3 class="fw-bold mb-1">Create Account</h3>
-                <p class="text-muted mb-4">Join CampusBazaar today!</p>
-                <form method="POST">
-                    <div class="mb-3">
-                        <label class="form-label fw-500">Full Name</label>
-                        <input type="text" name="name" class="form-control" placeholder="Your full name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" placeholder="college@email.com" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" placeholder="Min 6 characters" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label">College Name</label>
-                        <input type="text" name="college" class="form-control" placeholder="Your college name" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 py-2">Create Account</button>
-                </form>
-                <p class="text-center mt-3 text-muted">Already have an account? <a href="/login" class="text-primary fw-bold">Login</a></p>
-            </div>
+<div class="min-h-screen bg-background flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+
+        <div class="text-center mb-8">
+            <div class="text-5xl mb-3">🛍️</div>
+            <h1 class="text-2xl font-bold text-primary" style="font-family:Montserrat;">CampusBazaar</h1>
+            <p class="text-on-surface-variant text-sm mt-1">Join thousands of students buying & selling!</p>
         </div>
+
+        <div class="bg-white rounded-3xl shadow-sm border border-outline-variant p-8">
+            <h2 class="text-xl font-bold text-on-background mb-1" style="font-family:Montserrat;">Create Account 🚀</h2>
+            <p class="text-on-surface-variant text-sm mb-6">It's free and takes less than a minute!</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="mb-4 px-4 py-3 rounded-xl text-sm font-medium {% if category == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-on-background mb-2">Full Name</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">person</span>
+                        <input type="text" name="name" required
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                            placeholder="Abhay Patel">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-on-background mb-2">College Email</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">mail</span>
+                        <input type="email" name="email" required
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                            placeholder="your@college.edu">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-on-background mb-2">College Name</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">school</span>
+                        <input type="text" name="college" required
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                            placeholder="Lovely Professional University">
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-on-background mb-2">Password</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">lock</span>
+                        <input type="password" name="password" required
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                            placeholder="Create a strong password">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full py-3.5 rounded-2xl text-white font-bold text-base transition-all active:scale-95 hover:opacity-90 mb-4" style="background: linear-gradient(135deg, #0058be, #2170e4);">
+                    Create My Account 🚀
+                </button>
+
+                <div class="flex items-center gap-3 my-4">
+                    <div class="flex-1 h-px bg-outline-variant"></div>
+                    <span class="text-xs text-on-surface-variant">or</span>
+                    <div class="flex-1 h-px bg-outline-variant"></div>
+                </div>
+
+                <p class="text-center text-sm text-on-surface-variant">
+                    Already have an account?
+                    <a href="/login" class="text-primary font-semibold hover:underline ml-1">Login</a>
+                </p>
+            </form>
+        </div>
+
+        <div class="mt-6 p-4 bg-white rounded-2xl border border-outline-variant flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary text-lg mt-0.5">verified_user</span>
+            <p class="text-xs text-on-surface-variant leading-relaxed">CampusBazaar is exclusively for college students. Your data is safe and never shared.</p>
+        </div>
+
     </div>
 </div>
 {% endblock %}
