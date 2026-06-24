@@ -94,4 +94,5 @@
                 <!-- Action Buttons -->
                 {% if session.user_id and session.user_id != item.user_id %}
                 <div class="flex flex-col gap-3">
-                    <a href="/chat/start/{{ item.id }}" class="flex items-center justify-center gap-2 py-3.5 rounded-2xl text-white font-bold transition-all active:scale-95 hover:opacity-90"
+                    <a href="/chat/start/{{ item.id }}" class="flex items-center justify-center gap-2 py-3.5 rounded-2xl text-white font-bold transition-all active:scale-95 hover:opacity-90"{% endif %}
+{% endblock %}
