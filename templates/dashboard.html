@@ -1,62 +1,119 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class="container mt-4">
-    <div class="row g-4">
-        <!-- Profile Card -->
-        <div class="col-md-3">
-            <div class="bg-white rounded-3 p-4 shadow-sm text-center">
-                <div style="width:80px; height:80px; background:#2874f0; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px;">
-                    <i class="fas fa-user fa-2x text-white"></i>
-                </div>
-                <h5 class="fw-bold">{{ user.name }}</h5>
-                <p class="text-muted small">{{ user.email }}</p>
-                <p class="text-muted small"><i class="fas fa-graduation-cap"></i> {{ user.college }}</p>
-                <hr>
-                <div class="row text-center">
-                    <div class="col-6">
-                        <h4 class="fw-bold text-primary">{{ items|length }}</h4>
-                        <small class="text-muted">Listed</small>
-                    </div>
-                    <div class="col-6">
-                        <h4 class="fw-bold text-success">{{ items|selectattr('sold')|list|length }}</h4>
-                        <small class="text-muted">Sold</small>
-                    </div>
-                </div>
-                <a href="/post" class="btn btn-primary w-100 mt-3">+ Sell Item</a>
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="hidden md:flex w-64 flex-col fixed left-0 h-[calc(100vh-64px)] bg-white border-r border-outline-variant px-6 py-8 overflow-y-auto">
+        <div class="mb-8">
+            <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-4 font-semibold">Categories</p>
+            <ul class="space-y-2">
+                <li><a href="/" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">home</span><span>Feed</span></a></li>
+                <li><a href="/?category=Books" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">menu_book</span><span>Textbooks</span></a></li>
+                <li><a href="/?category=Electronics" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">laptop_mac</span><span>Electronics</span></a></li>
+                <li><a href="/?category=Clothes" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">apparel</span><span>Clothes</span></a></li>
+                <li><a href="/?category=Sports" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">sports_soccer</span><span>Sports</span></a></li>
+                <li><a href="/?category=Other" class="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low font-semibold text-sm transition-colors">
+                    <span class="material-symbols-outlined text-lg">category</span><span>Other</span></a></li>
+            </ul>
+        </div>
+        <div class="mt-auto">
+            <div class="p-4 bg-surface-container rounded-2xl border border-outline-variant">
+                <p class="font-semibold text-primary text-sm mb-2">Safety Tip 🔒</p>
+                <p class="text-xs text-on-surface-variant leading-relaxed">Always meet in well-lit public campus areas for exchanges.</p>
             </div>
         </div>
+    </aside>
 
-        <!-- Listings -->
-        <div class="col-md-9">
-            <h5 class="fw-bold mb-3">My Listings</h5>
-            {% if items %}
-                {% for item in items %}
-                <div class="bg-white rounded-3 p-3 shadow-sm mb-3">
-                    <div class="d-flex align-items-center">
-                        <img src="/static/images/{{ item.image }}" style="width:80px; height:80px; object-fit:cover; border-radius:8px;" onerror="this.style.display='none'">
-                        <div class="ms-3 flex-grow-1">
-                            <h6 class="fw-bold mb-1">{{ item.title }}</h6>
-                            <p class="text-primary fw-bold mb-1">₹{{ "{:,.0f}".format(item.price) }}</p>
-                            <span class="badge {% if item.sold %}bg-danger{% else %}bg-success{% endif %}">
+    <!-- Main Content -->
+    <main class="flex-1 md:ml-64 px-4 md:px-8 py-8">
+        <div class="max-w-4xl mx-auto">
+
+            <!-- Profile Card -->
+            <div class="bg-white rounded-3xl border border-outline-variant shadow-sm p-6 mb-8">
+                <div class="flex items-center gap-5">
+                    <div class="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white font-bold text-3xl flex-shrink-0">
+                        {{ user.name[0].upper() }}
+                    </div>
+                    <div class="flex-1">
+                        <h1 class="text-xl font-bold text-on-background" style="font-family:Montserrat;">{{ user.name }}</h1>
+                        <p class="text-on-surface-variant text-sm">{{ user.email }}</p>
+                        <p class="text-on-surface-variant text-sm flex items-center gap-1 mt-1">
+                            <span class="material-symbols-outlined text-sm">school</span>
+                            {{ user.college }}
+                        </p>
+                    </div>
+                    <a href="/post" class="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-semibold text-sm" style="background: linear-gradient(135deg, #0058be, #2170e4);">
+                        <span class="material-symbols-outlined text-lg">add_circle</span>
+                        Sell Item
+                    </a>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-outline-variant">
+                    <div class="text-center">
+                        <p class="text-2xl font-bold text-primary">{{ items|length }}</p>
+                        <p class="text-xs text-on-surface-variant mt-1">Total Listed</p>
+                    </div>
+                    <div class="text-center border-x border-outline-variant">
+                        <p class="text-2xl font-bold text-tertiary">{{ items|selectattr('sold')|list|length }}</p>
+                        <p class="text-xs text-on-surface-variant mt-1">Total Sold</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-2xl font-bold text-secondary-container">{{ items|rejectattr('sold')|list|length }}</p>
+                        <p class="text-xs text-on-surface-variant mt-1">Active</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Listings -->
+            <div>
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold text-on-background" style="font-family:Montserrat;">My Listings</h2>
+                    <a href="/post" class="md:hidden flex items-center gap-1 text-primary text-sm font-semibold">
+                        <span class="material-symbols-outlined text-lg">add</span> Add
+                    </a>
+                </div>
+
+                {% if items %}
+                <div class="space-y-4">
+                    {% for item in items %}
+                    <div class="bg-white rounded-2xl border border-outline-variant shadow-sm p-4 flex items-center gap-4">
+                        <div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container flex-shrink-0">
+                            <img src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image }}"
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://placehold.co/80x80?text=No+Image'">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-bold text-on-background text-sm truncate">{{ item.title }}</p>
+                            <p class="text-primary font-bold text-base">₹{{ "{:,.0f}".format(item.price) }}</p>
+                            <span class="inline-block px-2 py-0.5 rounded-full text-xs font-semibold mt-1 {% if item.sold %}bg-red-100 text-red-600{% else %}bg-green-100 text-green-600{% endif %}">
                                 {% if item.sold %}Sold{% else %}Active{% endif %}
                             </span>
                         </div>
-                        <div class="d-flex gap-2">
-                            <a href="/item/{{ item.id }}" class="btn btn-sm btn-outline-primary">View</a>
+                        <div class="flex flex-col gap-2 flex-shrink-0">
+                            <a href="/item/{{ item.id }}" class="px-3 py-1.5 rounded-xl bg-surface-container text-on-background text-xs font-semibold hover:bg-surface-container-high transition-colors text-center">View</a>
                             {% if not item.sold %}
-                            <a href="/mark_sold/{{ item.id }}" class="btn btn-sm btn-outline-danger">Mark Sold</a>
+                            <a href="/mark_sold/{{ item.id }}" class="px-3 py-1.5 rounded-xl bg-red-50 text-red-600 text-xs font-semibold hover:bg-red-100 transition-colors text-center">Mark Sold</a>
                             {% endif %}
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            {% else %}
-                <div class="bg-white rounded-3 p-5 shadow-sm text-center">
-                    <h5 class="text-muted">No items listed yet!</h5>
-                    <a href="/post" class="btn btn-primary mt-3">Post Your First Item</a>
+                {% else %}
+                <div class="text-center py-16 bg-white rounded-3xl border border-outline-variant">
+                    <div class="text-5xl mb-4">📦</div>
+                    <h3 class="font-bold text-on-background mb-2">No listings yet!</h3>
+                    <p class="text-on-surface-variant text-sm mb-6">Start selling your items to other students</p>
+                    <a href="/post" class="px-6 py-3 rounded-full text-white font-semibold text-sm inline-block" style="background: linear-gradient(135deg, #0058be, #2170e4);">Post Your First Item</a>
                 </div>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
-    </div>
+    </main>
 </div>
 {% endblock %}
