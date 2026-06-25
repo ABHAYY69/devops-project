@@ -53,13 +53,19 @@ class Message(db.Model):
 def home():
     category = request.args.get('category', '')
     search = request.args.get('search', '')
+    min_price = request.args.get('min_price', '')
+    max_price = request.args.get('max_price', '')
     query = Item.query.filter_by(sold=False)
     if category:
         query = query.filter_by(category=category)
     if search:
         query = query.filter(Item.title.ilike(f'%{search}%'))
+    if min_price:
+        query = query.filter(Item.price >= float(min_price))
+    if max_price:
+        query = query.filter(Item.price <= float(max_price))
     items = query.order_by(Item.date_posted.desc()).all()
-    return render_template('index.html', items=items, category=category, search=search)
+    return render_template('index.html', items=items, category=category, search=search, min_price=min_price, max_price=max_price)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

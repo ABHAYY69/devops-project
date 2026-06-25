@@ -89,10 +89,26 @@
 
         <!-- Fresh Finds Grid -->
         <section class="mb-20">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-on-background" style="font-family:Montserrat;">Fresh Finds</h3>
-                <span class="text-sm text-on-surface-variant">{{ items|length }} items</span>
-            </div>
+           <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+    <h3 class="text-xl font-bold text-on-background" style="font-family:Montserrat;">Fresh Finds</h3>
+    <div class="flex items-center gap-3">
+        <!-- Desktop Price Filter -->
+        <form method="GET" action="/" class="hidden md:flex items-center gap-2 bg-white border border-outline-variant rounded-full px-4 py-2">
+            <span class="material-symbols-outlined text-on-surface-variant text-sm">currency_rupee</span>
+            <input type="number" name="min_price" placeholder="Min" value="{{ min_price }}"
+                class="w-20 text-sm outline-none bg-transparent" onchange="this.form.submit()">
+            <span class="text-on-surface-variant text-sm">—</span>
+            <input type="number" name="max_price" placeholder="Max" value="{{ max_price }}"
+                class="w-20 text-sm outline-none bg-transparent" onchange="this.form.submit()">
+            <input type="hidden" name="category" value="{{ category }}">
+            <input type="hidden" name="search" value="{{ search }}">
+            <button type="submit" class="text-primary">
+                <span class="material-symbols-outlined text-sm">tune</span>
+            </button>
+        </form>
+        <span class="text-sm text-on-surface-variant">{{ items|length }} items</span>
+    </div>
+</div>
             <div class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
                 {% for item in items %}
                 <a href="/item/{{ item.id }}" class="group cursor-pointer no-underline">
