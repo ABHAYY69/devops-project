@@ -49,11 +49,31 @@
                     <label class="block text-sm font-semibold text-on-background mb-2">College Name</label>
                     <div class="relative">
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">school</span>
-                        <input type="text" name="college" required
+                        <input type="text" id="collegeSearch" placeholder="Search your college..." autocomplete="off"
                             class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
-                            placeholder="Lovely Professional University">
+                            oninput="filterColleges(this.value)">
+                        <input type="hidden" name="college" id="collegeHidden" required>
+                        <div id="collegeDropdown" class="hidden absolute z-50 w-full mt-1 bg-white border border-outline-variant rounded-xl shadow-lg max-h-48 overflow-y-auto">
+                            <div id="collegeList"></div>
+                        </div>
                     </div>
                 </div>
+                <script>
+                const colleges = ["Lovely Professional University","Chandigarh University","Panjab University","Amity University Noida","Amity University Mumbai","Delhi University","IIT Delhi","IIT Bombay","IIT Madras","IIT Kanpur","IIT Kharagpur","IIT Roorkee","IIT Hyderabad","NIT Trichy","NIT Warangal","NIT Surathkal","NIT Calicut","BITS Pilani","BITS Goa","BITS Hyderabad","VIT University Vellore","VIT Chennai","SRM University Chennai","SRM University Delhi NCR","Manipal University","Manipal University Jaipur","Christ University Bangalore","Symbiosis International University","Thapar Institute of Engineering","Anna University","Jadavpur University","Osmania University","Pune University","Mumbai University","Calcutta University","Madras University","Hyderabad University","Banaras Hindu University","Aligarh Muslim University","Jawaharlal Nehru University","Jamia Millia Islamia","IIIT Hyderabad","IIIT Delhi","IIIT Allahabad","IIIT Bangalore","DTU Delhi","NSIT Delhi","IGDTUW Delhi","Coimbatore Institute of Technology","PSG College of Technology","RV College of Engineering","MS Ramaiah Institute of Technology","BMS College of Engineering","PES University","Nirma University","DAIICT Gandhinagar","SVNIT Surat","VJTI Mumbai","College of Engineering Pune","Vishwakarma Institute of Technology","Bharati Vidyapeeth University","MIT World Peace University","Shiv Nadar University","Bennett University","Ashoka University","Chitkara University","Graphic Era University","Uttarakhand Technical University","Vellore Institute of Technology","Kalinga Institute of Industrial Technology","Other"];
+                function filterColleges(q) {
+                    const list = document.getElementById("collegeList");
+                    document.getElementById("collegeDropdown").classList.remove("hidden");
+                    const f = colleges.filter(c => c.toLowerCase().includes(q.toLowerCase()));
+                    list.innerHTML = f.length ? f.map(c => "<div class='px-4 py-2 text-sm hover:bg-surface-container-low cursor-pointer' onclick=\"selectCollege('" + c + "')\">"+c+"</div>").join("") : "<div class='px-4 py-3 text-sm text-on-surface-variant'>No college found</div>";
+                }
+                function selectCollege(name) {
+                    document.getElementById("collegeSearch").value = name;
+                    document.getElementById("collegeHidden").value = name;
+                    document.getElementById("collegeDropdown").classList.add("hidden");
+                }
+                document.getElementById("collegeSearch").addEventListener("focus", function() { filterColleges(this.value); });
+                document.addEventListener("click", function(e) { if(!e.target.closest("#collegeSearch") && !e.target.closest("#collegeDropdown")) document.getElementById("collegeDropdown").classList.add("hidden"); });
+                </script>
 
                 <div class="mb-6">
                     <label class="block text-sm font-semibold text-on-background mb-2">Password</label>
