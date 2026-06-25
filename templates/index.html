@@ -53,6 +53,20 @@
         </section>
 
         {% if items %}
+        <!-- College Filter Toggle -->
+        {% if session.user_id %}
+        <div class="flex items-center gap-2 mb-6 bg-white border border-outline-variant rounded-2xl p-1.5">
+            <a href="/?college_filter=my_college&category={{ category }}&search={{ search }}"
+               class="flex-1 text-center py-2 rounded-xl text-sm font-semibold transition-all {% if college_filter == 'my_college' %}bg-primary text-white shadow-sm{% else %}text-on-surface-variant{% endif %}">
+                🏫 {{ user_college[:20] }}
+            </a>
+            <a href="/?college_filter=all&category={{ category }}&search={{ search }}"
+               class="flex-1 text-center py-2 rounded-xl text-sm font-semibold transition-all {% if college_filter == 'all' %}bg-primary text-white shadow-sm{% else %}text-on-surface-variant{% endif %}">
+                🌍 All Colleges
+            </a>
+        </div>
+        {% endif %}
+
         <!-- Featured Items (Horizontal Scroll) -->
         <section class="mb-12">
             <div class="flex items-center justify-between mb-6">
