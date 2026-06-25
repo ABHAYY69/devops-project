@@ -94,5 +94,30 @@
                 <!-- Action Buttons -->
                 {% if session.user_id and session.user_id != item.user_id %}
                 <div class="flex flex-col gap-3">
-                    <a href="/chat/start/{{ item.id }}" class="flex items-center justify-center gap-2 py-3.5 rounded-2xl text-white font-bold transition-all active:scale-95 hover:opacity-90"{% endif %}
+                    <a href="/chat/start/{{ item.id }}" class="flex items-center justify-center gap-2 py-3.5 rounded-2xl text-white font-bold transition-all active:scale-95 hover:opacity-90" style="background: linear-gradient(135deg, #fd761a, #ff9500);">
+                        <span class="material-symbols-outlined">chat_bubble</span>
+                        Chat with Seller
+                    </a>
+                    <a href="mailto:{{ item.seller.email }}" class="flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold border-2 border-primary text-primary transition-all hover:bg-surface-container-low">
+                        <span class="material-symbols-outlined">mail</span>
+                        Email Seller
+                    </a>
+                </div>
+                {% elif not session.user_id %}
+                <a href="/login" class="flex items-center justify-center gap-2 py-3.5 rounded-2xl text-white font-bold transition-all" style="background: linear-gradient(135deg, #0058be, #2170e4);">
+                    <span class="material-symbols-outlined">login</span>
+                    Login to Contact Seller
+                </a>
+                {% else %}
+                <div class="p-4 bg-surface-container rounded-2xl text-center">
+                    <p class="text-sm text-on-surface-variant">This is your listing</p>
+                    {% if not item.sold %}
+                    <a href="/mark_sold/{{ item.id }}" class="text-primary font-semibold text-sm hover:underline mt-1 block">Mark as Sold</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</div>
 {% endblock %}
