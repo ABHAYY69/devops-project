@@ -59,7 +59,7 @@ def home():
     query = Item.query.filter_by(sold=False)
     if college_filter == 'my_college' and session.get('user_id'):
         user = User.query.get(session['user_id'])
-        query = query.join(User).filter(User.college == user.college)
+        query = query.join(User).filter(User.college.ilike(f'%{user.college[:5]}%'))
     if category:
         query = query.filter(Item.category == category)
     if search:
