@@ -55,9 +55,13 @@ def home():
     search = request.args.get('search', '')
     min_price = request.args.get('min_price', '')
     max_price = request.args.get('max_price', '')
+    college_filter = request.args.get('college_filter', 'my_college')
     query = Item.query.filter_by(sold=False)
+    if college_filter == 'my_college' and session.get('user_id'):
+        user = User.query.get(session['user_id'])
+        query = query.join(User).filter(User.college == user.college)
     if category:
-        query = query.filter_by(category=category)
+        query = query.filter(Item.category == category)
     if search:
         query = query.filter(Item.title.ilike(f'%{search}%'))
     if min_price:
@@ -65,7 +69,11 @@ def home():
     if max_price:
         query = query.filter(Item.price <= float(max_price))
     items = query.order_by(Item.date_posted.desc()).all()
-    return render_template('index.html', items=items, category=category, search=search, min_price=min_price, max_price=max_price)
+    user_college = ''
+    if session.get('user_id'):
+        u = User.query.get(session['user_id'])
+        user_college = u.college if u else ''
+    return render_template('index.html', items=items, category=category, search=search, min_price=min_price, max_price=max_price, college_filter=college_filter, user_college=user_college)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
