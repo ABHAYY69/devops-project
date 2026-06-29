@@ -78,7 +78,7 @@
                 <div class="min-w-[280px] md:min-w-[340px] bg-surface rounded-2xl shadow-sm border border-outline-variant hover:shadow-md transition-all cursor-pointer overflow-hidden flex flex-col">
                     <div class="h-48 relative overflow-hidden">
                         <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                             src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image }}"
+                             src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image.split(',')[0] }}"
                              onerror="this.src='https://placehold.co/340x200?text={{ item.category }}'">
                         <span class="absolute top-3 left-3 bg-tertiary-container text-white px-2 py-1 rounded text-xs font-semibold">{{ item.category }}</span>
                     </div>

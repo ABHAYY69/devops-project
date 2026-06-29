@@ -61,7 +61,7 @@
                     {% for item in items %}
                     <div class="bg-white rounded-2xl border border-outline-variant shadow-sm p-4 flex items-center gap-4">
                         <div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container flex-shrink-0">
-                            <img src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/80x80?text=No+Image'">
+                            <img src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image.split(',')[0] }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/80x80?text=No+Image'">
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="font-bold text-on-background text-sm truncate">{{ item.title }}</p>
