@@ -46,13 +46,31 @@
                     <!-- Image Upload -->
                     <div class="mb-6">
                         <label class="block text-sm font-semibold text-on-background mb-2">Item Photos (up to 4)</label>
-                        <div class="border-2 border-dashed border-outline-variant rounded-2xl p-8 text-center cursor-pointer hover:border-primary transition-colors" onclick="document.getElementById('imageInput').click()">
-                            <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2 block">add_photo_alternate</span>
-                            <p class="text-sm font-semibold text-on-background">Click to upload photos</p>
-                            <p class="text-xs text-on-surface-variant mt-1">PNG, JPG up to 16MB • Max 4 photos</p>
-                            <input type="file" id="imageInput" name="image" accept="image/*" class="hidden" multiple onchange="previewImages(this)">
-                        </div>
-                        <div id="imagePreview" class="hidden mt-3 grid grid-cols-2 gap-2">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="border-2 border-dashed border-outline-variant rounded-2xl p-4 text-center cursor-pointer hover:border-primary transition-colors" onclick="document.getElementById('img1').click()">
+                                <div id="preview1" class="hidden aspect-square rounded-xl overflow-hidden mb-2"><img id="previewImg1" class="w-full h-full object-cover"></div>
+                                <span class="material-symbols-outlined text-2xl text-on-surface-variant">add_photo_alternate</span>
+                                <p class="text-xs text-on-surface-variant mt-1">Photo 1 (Main)</p>
+                                <input type="file" id="img1" name="image" accept="image/*" class="hidden" onchange="previewImg(this,'previewImg1','preview1')">
+                            </div>
+                            <div class="border-2 border-dashed border-outline-variant rounded-2xl p-4 text-center cursor-pointer hover:border-primary transition-colors" onclick="document.getElementById('img2').click()">
+                                <div id="preview2" class="hidden aspect-square rounded-xl overflow-hidden mb-2"><img id="previewImg2" class="w-full h-full object-cover"></div>
+                                <span class="material-symbols-outlined text-2xl text-on-surface-variant">add_photo_alternate</span>
+                                <p class="text-xs text-on-surface-variant mt-1">Photo 2</p>
+                                <input type="file" id="img2" name="image" accept="image/*" class="hidden" onchange="previewImg(this,'previewImg2','preview2')">
+                            </div>
+                            <div class="border-2 border-dashed border-outline-variant rounded-2xl p-4 text-center cursor-pointer hover:border-primary transition-colors" onclick="document.getElementById('img3').click()">
+                                <div id="preview3" class="hidden aspect-square rounded-xl overflow-hidden mb-2"><img id="previewImg3" class="w-full h-full object-cover"></div>
+                                <span class="material-symbols-outlined text-2xl text-on-surface-variant">add_photo_alternate</span>
+                                <p class="text-xs text-on-surface-variant mt-1">Photo 3</p>
+                                <input type="file" id="img3" name="image" accept="image/*" class="hidden" onchange="previewImg(this,'previewImg3','preview3')">
+                            </div>
+                            <div class="border-2 border-dashed border-outline-variant rounded-2xl p-4 text-center cursor-pointer hover:border-primary transition-colors" onclick="document.getElementById('img4').click()">
+                                <div id="preview4" class="hidden aspect-square rounded-xl overflow-hidden mb-2"><img id="previewImg4" class="w-full h-full object-cover"></div>
+                                <span class="material-symbols-outlined text-2xl text-on-surface-variant">add_photo_alternate</span>
+                                <p class="text-xs text-on-surface-variant mt-1">Photo 4</p>
+                                <input type="file" id="img4" name="image" accept="image/*" class="hidden" onchange="previewImg(this,'previewImg4','preview4')">
+                            </div>
                         </div>
                     </div>
 
