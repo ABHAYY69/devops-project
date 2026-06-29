@@ -121,12 +121,16 @@ def post_item():
         price = float(request.form['price'])
         category = request.form['category']
         image_file = 'default.jpg'
-        if 'image' in request.files:
-            file = request.files['image']
-            if file.filename != '':
-                image_file = f"{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{file.filename}"
-                s3 = boto3.client('s3', region_name=AWS_REGION, aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)
-                s3.upload_fileobj(file, AWS_BUCKET, image_file, ExtraArgs={'ContentType': file.content_type})
+        uploaded_images = []
+        s3 = boto3.client('s3', region_name=AWS_REGION, aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)
+        files = request.files.getlist('image')
+        for file in files[:4]:
+            if file and file.filename != '':
+                fname = f"{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{file.filename}"
+                s3.upload_fileobj(file, AWS_BUCKET, fname, ExtraArgs={'ContentType': file.content_type})
+                uploaded_images.append(fname)
+        if uploaded_images:
+            image_file = ','.join(uploaded_images)
         item = Item(title=title, description=description, price=price,
                    category=category, image=image_file, user_id=session['user_id'])
         db.session.add(item)

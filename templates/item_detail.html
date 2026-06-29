@@ -41,13 +41,26 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
-            <!-- Left: Image -->
+            <!-- Left: Images -->
             <div>
-                <div class="rounded-3xl overflow-hidden bg-surface-container aspect-square shadow-sm border border-outline-variant">
-                    <img src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image }}"
+                {% set images = item.image.split(',') %}
+                <div class="rounded-3xl overflow-hidden bg-surface-container aspect-square shadow-sm border border-outline-variant mb-3">
+                    <img id="mainImg" src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ images[0] }}"
                          class="w-full h-full object-cover"
                          onerror="this.src='https://placehold.co/600x600?text=No+Image'">
                 </div>
+                {% if images|length > 1 %}
+                <div class="grid grid-cols-4 gap-2">
+                    {% for img in images %}
+                    <div class="aspect-square rounded-xl overflow-hidden bg-surface-container border border-outline-variant cursor-pointer hover:border-primary transition-colors"
+                         onclick="document.getElementById('mainImg').src='https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ img }}'">
+                        <img src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ img }}"
+                             class="w-full h-full object-cover"
+                             onerror="this.src='https://placehold.co/100x100?text=No+Image'">
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
 
             <!-- Right: Details -->

@@ -45,15 +45,14 @@
 
                     <!-- Image Upload -->
                     <div class="mb-6">
-                        <label class="block text-sm font-semibold text-on-background mb-2">Item Photo</label>
+                        <label class="block text-sm font-semibold text-on-background mb-2">Item Photos (up to 4)</label>
                         <div class="border-2 border-dashed border-outline-variant rounded-2xl p-8 text-center cursor-pointer hover:border-primary transition-colors" onclick="document.getElementById('imageInput').click()">
                             <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2 block">add_photo_alternate</span>
-                            <p class="text-sm font-semibold text-on-background">Click to upload photo</p>
-                            <p class="text-xs text-on-surface-variant mt-1">PNG, JPG up to 16MB</p>
-                            <input type="file" id="imageInput" name="image" accept="image/*" class="hidden" onchange="previewImage(this)">
+                            <p class="text-sm font-semibold text-on-background">Click to upload photos</p>
+                            <p class="text-xs text-on-surface-variant mt-1">PNG, JPG up to 16MB • Max 4 photos</p>
+                            <input type="file" id="imageInput" name="image" accept="image/*" class="hidden" multiple onchange="previewImages(this)">
                         </div>
-                        <div id="imagePreview" class="hidden mt-3">
-                            <img id="previewImg" class="w-full h-48 object-cover rounded-2xl" src="" alt="Preview">
+                        <div id="imagePreview" class="hidden mt-3 grid grid-cols-2 gap-2">
                         </div>
                     </div>
 
