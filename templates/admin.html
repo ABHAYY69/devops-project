@@ -1,104 +1,146 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">👑 Admin Dashboard</h2>
-        <a href="/admin/logout" class="btn btn-outline-danger">Logout</a>
-    </div>
+<div class="min-h-screen bg-background px-4 md:px-8 py-8">
+    <div class="max-w-6xl mx-auto">
 
-    <!-- Stats -->
-    <div class="row g-4 mb-5">
-        <div class="col-md-4">
-            <div class="card p-4 text-center">
-                <h1 class="fw-bold text-primary">{{ users|length }}</h1>
-                <p class="text-muted mb-0">Total Users</p>
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-on-background" style="font-family:Montserrat;">⚙️ Admin Dashboard</h1>
+                <p class="text-on-surface-variant text-sm mt-1">Manage users, items and platform activity</p>
+            </div>
+            <span class="px-4 py-2 rounded-full bg-red-100 text-red-600 text-xs font-bold">ADMIN ACCESS</span>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-2xl border border-outline-variant shadow-sm p-5 text-center">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
+                    <span class="material-symbols-outlined text-primary">group</span>
+                </div>
+                <p class="text-3xl font-bold text-primary">{{ users|length }}</p>
+                <p class="text-xs text-on-surface-variant mt-1">Total Users</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-outline-variant shadow-sm p-5 text-center">
+                <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mx-auto mb-3">
+                    <span class="material-symbols-outlined text-secondary-container">inventory_2</span>
+                </div>
+                <p class="text-3xl font-bold text-secondary-container">{{ items|length }}</p>
+                <p class="text-xs text-on-surface-variant mt-1">Total Items</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-outline-variant shadow-sm p-5 text-center">
+                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
+                    <span class="material-symbols-outlined text-green-600">check_circle</span>
+                </div>
+                <p class="text-3xl font-bold text-green-600">{{ sold_items|length }}</p>
+                <p class="text-xs text-on-surface-variant mt-1">Items Sold</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-outline-variant shadow-sm p-5 text-center">
+                <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3">
+                    <span class="material-symbols-outlined text-purple-600">storefront</span>
+                </div>
+                <p class="text-3xl font-bold text-purple-600">{{ items|length - sold_items|length }}</p>
+                <p class="text-xs text-on-surface-variant mt-1">Active Listings</p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card p-4 text-center">
-                <h1 class="fw-bold text-success">{{ items|length }}</h1>
-                <p class="text-muted mb-0">Total Items</p>
+
+        <!-- Users Table -->
+        <div class="bg-white rounded-3xl border border-outline-variant shadow-sm mb-8 overflow-hidden">
+            <div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between">
+                <h2 class="font-bold text-on-background" style="font-family:Montserrat;">👥 Users</h2>
+                <span class="text-xs text-on-surface-variant">{{ users|length }} total</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-surface-container-low">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-on-surface-variant uppercase">User</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-on-surface-variant uppercase">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-on-surface-variant uppercase">College</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-on-surface-variant uppercase">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant">
+                        {% for user in users %}
+                        <tr class="hover:bg-surface-container-low transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                                        {{ user.name[0].upper() }}
+                                    </div>
+                                    <span class="font-semibold text-sm text-on-background">{{ user.name }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-on-surface-variant">{{ user.email }}</td>
+                            <td class="px-6 py-4 text-sm text-on-surface-variant">{{ user.college[:25] }}</td>
+                            <td class="px-6 py-4">
+                                <a href="/admin/delete_user/{{ user.id }}" onclick="return confirm('Delete {{ user.name }}?')"
+                                   class="px-3 py-1.5 rounded-xl bg-red-50 text-red-600 text-xs font-semibold hover:bg-red-100 transition-colors">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card p-4 text-center">
-                <h1 class="fw-bold text-danger">{{ sold_items|length }}</h1>
-                <p class="text-muted mb-0">Items Sold</p>
+
+        <!-- Items Table -->
+        <div class="bg-white rounded-3xl border border-outline-variant shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between">
+                <h2 class="font-bold text-on-background" style="font-family:Montserrat;">📦 Items</h2>
+                <span class="text-xs text-on-surface-variant">{{ items|length }} total</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-surface-container-low">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-on-surface-variant uppercase">Item</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-on-surface-variant uppercase">Price</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-on-surface-variant uppercase">Category</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-on-surface-variant uppercase">Seller</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-on-surface-variant uppercase">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-on-surface-variant uppercase">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant">
+                        {% for item in items %}
+                        <tr class="hover:bg-surface-container-low transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl overflow-hidden bg-surface-container flex-shrink-0">
+                                        <img src="https://campusbazaar-images-756269935915.s3.ap-south-1.amazonaws.com/{{ item.image.split(',')[0] }}"
+                                             class="w-full h-full object-cover"
+                                             onerror="this.src='https://placehold.co/40x40?text=No'">
+                                    </div>
+                                    <span class="font-semibold text-sm text-on-background">{{ item.title[:25] }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm font-bold text-primary">₹{{ "{:,.0f}".format(item.price) }}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 rounded-full bg-surface-container text-on-surface-variant text-xs font-semibold">{{ item.category }}</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-on-surface-variant">{{ item.seller.name[:15] }}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 rounded-full text-xs font-bold {% if item.sold %}bg-red-100 text-red-600{% else %}bg-green-100 text-green-600{% endif %}">
+                                    {% if item.sold %}Sold{% else %}Active{% endif %}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="/admin/delete_item/{{ item.id }}" onclick="return confirm('Delete {{ item.title }}?')"
+                                   class="px-3 py-1.5 rounded-xl bg-red-50 text-red-600 text-xs font-semibold hover:bg-red-100 transition-colors">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
 
-    <!-- Users Table -->
-    <div class="card mb-5">
-        <div class="card-body">
-            <h4 class="fw-bold mb-4">👥 All Users</h4>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>College</th>
-                        <th>Items</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user in users %}
-                    <tr>
-                        <td>{{ user.id }}</td>
-                        <td>{{ user.name }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.college }}</td>
-                        <td>{{ user.items|length }}</td>
-                        <td>
-                            <a href="/admin/delete_user/{{ user.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this user?')">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Items Table -->
-    <div class="card">
-        <div class="card-body">
-            <h4 class="fw-bold mb-4">📦 All Items</h4>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Price</th>
-                        <th>Category</th>
-                        <th>Seller</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in items %}
-                    <tr>
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.title }}</td>
-                        <td>₹{{ item.price }}</td>
-                        <td>{{ item.category }}</td>
-                        <td>{{ item.seller.name }}</td>
-                        <td>
-                            <span class="badge {% if item.sold %}bg-danger{% else %}bg-success{% endif %}">
-                                {% if item.sold %}Sold{% else %}Active{% endif %}
-                            </span>
-                        </td>
-                        <td>
-                            <a href="/admin/delete_item/{{ item.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this item?')">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
 {% endblock %}
