@@ -244,6 +244,19 @@ def admin_login():
         flash('Invalid admin credentials!', 'danger')
     return render_template('admin_login.html')
 
+@app.route('/delete_item/<int:item_id>')
+def delete_item(item_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    item = Item.query.get_or_404(item_id)
+    if item.user_id != session['user_id']:
+        flash('Unauthorized!', 'danger')
+        return redirect(url_for('dashboard'))
+    db.session.delete(item)
+    db.session.commit()
+    flash('Item deleted successfully!', 'success')
+    return redirect(url_for('dashboard'))
+
 @app.route('/admin/delete_item/<int:item_id>')
 def admin_delete_item(item_id):
     if session.get('is_admin') != True:
